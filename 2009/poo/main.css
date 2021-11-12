@@ -1,0 +1,91 @@
+
+body {
+    font-family:Verdana,Arial;
+    font-size: small;
+}
+
+h1 {    
+    font-size:200%;
+}
+
+h2 {
+    font-size:150%;
+}
+
+.title {
+    border-style: solid;
+    border-width: 1px;    
+    text-align: center;
+    background-image: url('fondouam6.gif');
+}    
+
+.title li {
+    display: inline;
+    word-spacing: 5em;    
+}
+
+.box {
+    display: run-in;
+    margin: 2em 0 2em 0;
+    border-color: #000000;
+    border-style: solid;
+    border-width: 1px;
+    padding: 1em;
+}
+
+.box > h2 {
+    margin-top: -0.3em;
+    text-align: center;
+    text-decoration: bold;
+    color: #006633;
+}
+        
+a {
+    color:#006633;
+}
+
+li {
+    list-style-type: square;
+}
+
+table.calendar td {
+    background: #f4f4f4;
+    padding: 2px;
+    width: 10%;
+    height: 3em;    
+    font-size: small;    
+}
+
+table.calendar tr>td:last-child {
+    width: 50%;
+}
+
+table.calendar tr:first-child {
+    text-align: center;
+}
+
+table.calendar .first, table.calendar .first td {
+    background: #bbbbff;
+}
+
+table.calendar .fiesta, table.calendar .fiesta td, .first tr>.fiesta td {
+    background: #ffbbbb;
+}
+
+table.calendar .parciales td {
+    background: #ffffbb;
+}
+
+table.calendar .head td {
+    font-weight: bold;
+    text-align: center;
+    background: #dddddd;
+}
+
+span.copyright {
+    color: black;
+    font-size: 80%;
+    font-weight: bold;
+    text-align: right;    
+    padding-top: 0.5em;
+}

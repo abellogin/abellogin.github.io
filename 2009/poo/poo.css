@@ -1,0 +1,112 @@
+/*
+ * Stylesheet for CSS2-Compliant browsers, freely adapted from the Plone Look
+ * (www.plone.org/plone.css)
+ *
+ * Author: Manuel Freire
+ */
+
+/* tablas */
+ 
+table {
+    position: relative; 
+    left: 10px;
+    border-style: solid;
+    border-spacing: 0px; 
+    border-width: 1px;   
+}
+
+td, th {
+    border: 1px solid #dddddd;
+    padding: 5px;
+    background-color: #ffffff;
+    color: black;
+}
+
+/* cabecera */
+
+h1 {        
+    text-align: center;
+    color: #4242a2;
+    padding: .5em;
+}
+
+p.duracion, p.entrega {
+    font-weight: bold;
+}
+
+p.cabecera {
+    text-align: right;
+    position: relative;
+    text-decoration: bold;
+    top: 10px;
+}
+
+hr {
+    width: 100%; 
+    height: 1px;
+    color: #aaaaaa;
+}
+
+/* otros */
+
+div.erratas {
+    border: 1px solid #dd6666;
+    left: 30px;
+    right: 50px;
+    background-color: #ffeeee;
+}
+
+h2, h3, h4, h5 {
+    font-family: "Lucida Grande", Verdana, Lucida, Helvetica, Arial, sans-serif;
+    font-weight: normal;
+}
+
+p {
+    margin-left: 10px;
+}
+
+li {
+    padding: 0.2em;
+}
+
+pre {
+    position: relative; 
+    left: 10px;
+    margin-right: 20px;
+    font-size: 100%;
+    padding: 1em;
+    border: 2px dashed #aaaaaa;
+    color: #000088;
+    overflow: auto;
+}
+
+span.code, code {
+    font-family: Monospace;
+    color: #000088;
+}
+
+span.copyright {
+    font-size: 80%;
+    font-weight: bold;
+    text-align: right;    
+    padding-top: 0.5em;
+}
+
+h2 {
+    font-family: "Lucida Grande", Verdana, Lucida, Helvetica, Arial, sans-serif;
+    font-weight: normal;
+    margin: 0;
+    padding-top: 1em;
+    border-bottom: 1px solid #8cacbb;
+}
+
+/* para la memoria de ejemplo */
+
+#ejmemoria h2 {
+    border-bottom: none;
+}
+
+#ejmemoria h1 {
+    color: #8cacbb;
+}
+

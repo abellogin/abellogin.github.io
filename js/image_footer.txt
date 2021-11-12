@@ -1,0 +1,8 @@
+function getImage(){
+    var maxImages = 4;
+    var id = Math.ceil(Math.random()*(maxImages)) - 1;
+    return "img/bellogin-" + id + ".gif";
+}
+
+document.write('<a href="./index.html"><img src="img/empty.gif" id="image_b" title="Alejandro Bellogin" /></a>');
+document.getElementById('image_b').src = getImage();

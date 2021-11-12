@@ -1,0 +1,197 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html>
+<head>
+  <meta content="text/html; charset=ISO-8859-15"
+ http-equiv="content-type">
+  <link rel="STYLESHEET" href="../poo.css">
+  <title>POO: Práctica 3</title>
+</head>
+<body>
+<!-- titulo de la practica y fechas de entrega -->
+<p class="cabecera">Programación Orientada a Objetos. Curso
+2010/2011<span style="font-weight: bold;"><br>
+</span></p>
+<h1>Práctica 3. Interfaces de usuario y RMI</h1>
+<table style="text-align: left; width: 80%;" border="1" cellpadding="2"
+ cellspacing="2">
+  <tbody>
+    <tr>
+      <td style="vertical-align: top;">Calendario
+      </td>
+      <td style="vertical-align: top;">Lunes
+      </td>
+      <td style="vertical-align: top;">Martes
+      </td>
+      <td style="vertical-align: top;">Miércoles
+      </td>
+      <td style="vertical-align: top;">Jueves
+      </td>
+      <td style="vertical-align: top;">Viernes
+      </td>
+      <td style="vertical-align: top;">Observaciones
+      </td>
+    </tr>
+    <tr>
+      <td style="vertical-align: top;">Inicio
+      </td>
+      <td style="vertical-align: top;">28/03
+      </td>
+      <td style="vertical-align: top;">29/03
+      </td>
+      <td style="vertical-align: top;">30/03
+      </td>
+      <td style="vertical-align: top;">31/03
+      </td>
+      <td style="vertical-align: top;">01/04
+      </td>
+      <td style="vertical-align: top;">
+      </td>
+    </tr>
+    <tr>
+      <td style="vertical-align: top;">Evaluación
+      </td>
+      <td style="vertical-align: top;">16/05
+      </td>
+      <td style="vertical-align: top;">10/05
+      </td>
+      <td style="vertical-align: top;">11/05
+      </td>
+      <td style="vertical-align: top;">12/05
+      </td>
+      <td style="vertical-align: top;">20/05
+      </td>
+      <td style="vertical-align: top;">
+      </td>
+    </tr>
+    <tr>
+      <td style="vertical-align: top;">Entrega
+      </td>
+      <td style="vertical-align: top;">16/05
+      </td>
+      <td style="vertical-align: top;">10/05
+      </td>
+      <td style="vertical-align: top;">11/05
+      </td>
+      <td style="vertical-align: top;">12/05
+      </td>
+      <td style="vertical-align: top;">16/05
+      </td>
+      <td style="vertical-align: top;">Entrega el día anterior.
+Los grupos que entregan el lunes lo hacen 2 horas antes del comienzo de la clase.
+      </td>
+    </tr>
+  </tbody>
+</table>
+<p class="duracion"><br>
+</p>
+<h2>Objetivos</h2>
+<p>En esta práctica el alumno se formará en las siguientes capacidades:</p>
+<ul>
+  <li>Desarrollo de interfaces de usuario con tecnología orientada a objetos.</li>
+  <li>Desarrollo y manejo de estructuras de datos avanzadas orientadas a objetos.</li>
+  <li>Iniciación a la tecnología de objetos distribuidos (RMI).</li>
+</ul>
+
+<p>Además, continuará su formación con respecto a los siguientes conceptos:</p>
+<ul>
+  <li>Creación y manejo de excepciones.</li>
+  <li>Utilización de librerías de clases desarrolladas por terceros.</li>
+</ul>
+
+
+<h2>Descripción del proyecto</h2>
+
+<p>El trabajo a realizar consiste en la implementación de un <I>sistema <B>gráfico</B> de gestión de una tienda virtual</I>,
+en el que, partiendo de las prácticas anteriores, conserve todas sus funcionalidades pero, como novedad, permita la interacción con el usuario de forma gráfica.</p>
+
+<p>El programa distinguirá el acceso a dos tipos de usuarios: los clientes y los administradores. Una vez se han identificado, cada uno de ellos tendrá una serie de tareas específica, única dependiendo del tipo de usuario (más información en enunciado de la práctica 2). El programa debe permitir la creación (registro) de nuevos clientes.</p>
+
+<p>Se recuerda que el archivo XML deberá actualizarse cada vez que en el programa se realice un cambio (nuevo usuario, editar datos del almacén, etc.) que afecte a los datos de la tienda, de forma que ésta sea persistente.</p>
+
+<p>Se deja a juicio del alumno el diseño de la interfaz gráfica, pero se destaca que deberían primar la <B>facilidad</B>, <B>claridad</B> y <B>fluidez de ejecución</B> en su manejo frente a otras características. Se aconseja, no obstante, la utilización de componentes gráficas avanzadas (p.e., JList, JTable) en la medida de lo posible. Además, las ventanas no deben ser rígidas (no <I>resizeable</I>), siendo obligatorio la utilización de <I>layout managers</I>.
+</p>
+
+<p>En esta práctica, además, se añade el concepto de cliente y servidor, con el sentido de que el servidor es un elemento que produce unos recursos, consumidos por el cliente. En nuestro caso, el servidor será la Tienda, y el cliente, un objeto de tipo Cliente. Los recursos consumidos serán los Artículos. De esta manera, los objetos cliente y servidor podrán encontrarse en máquinas distintas, haciendo uso de una arquitectura basada en objetos distribuidos RMI. Se deberá controlar la <B>concurrencia</B> de manera que dos clientes no puedan comprar el mismo recurso en un instante de tiempo.</p>
+
+<p>El Administrador se puede asumir que se encuentra en la misma máquina que la Tienda, por lo que no necesitará acceder a ella de manera remota; por esto mismo, el registro de nuevos administradores se puede hacer manualmente en el XML si se prefiere.</p>
+
+<p>Se valorará el uso adecuado de objetos por valor u objetos remotos, según se adecúe a cada caso, así como la utilización de callbacks. Naturalmente estas funcionalidades precisarán la ampliación de las clases internas e interfaces con los métodos (y en su caso datos) necesarios para efectuar estas operaciones, así como otras declaraciones (excepciones, <I>Serializable</I>, etc.).
+</p>
+
+
+<p>Por todo esto, esta práctica se puede dividir en tres partes:</p>
+<ol>
+	<li>Creación de las interfaces gráficas y gestión de las funcionalidades implementadas en prácticas anteriores.</li>
+	<li>Añadir sincronización a los métodos sensibles. Para ello, bastará con probar con más de un cliente accediendo a la vez a la tienda, pero sin necesidad de que este acceso sea distribuido (dos o más hilos).</li>
+	<li>Añadir RMI y objetos distribuidos para permitir una arquitectura de cliente-servidor. De esta manera, el cliente y la tienda podrán no sólo estar en hilos, sino en procesos distintos (a diferencia de la parte anterior).</li>
+</ol>
+
+<p>A lo largo del desarrollo de la práctica, los profesores de la asignatura dejarán disponible el material necesario para cada una de estas partes.</p>
+
+<p>Consideraciones:</p>
+<ul>
+  <li>Se aconseja al alumno esforzarse en tener el sistema de gestión de la tienda (práctica 2)
+completamente funcional antes de comenzar la primera parte de la
+práctica.</li>
+  <li>También se aconseja hacer primero la parte gráfica de la práctica, y después la parte distribuida, como viene indicado más arriba. </li>
+  <li><a href="http://arantxa.ii.uam.es/%7Ecastells/docencia/poo/9-networking.pdf">Documentación</a>
+sobre RMI, y ejemplos (<a href="http://java.sun.com/docs/books/tutorial/rmi/client.html">cliente</a>,
+    <a href="http://java.sun.com/docs/books/tutorial/rmi/server.html">servidor</a>).
+  </li>
+</ul>
+
+
+
+<p><u>Opcionalmente:</u></p>
+
+<ul>
+    <li>Dado un usuario identificado satisfactoriamente en el sistema, y que contenga un historial suficiente, se le aconsejarán (<A HREF="http://es.wikipedia.org/wiki/Sistema_de_recomendaci%C3%B3n">recomendarán</A>) otros elementos disponibles en la tienda que puedan serle de utilidad y en virtud de distintos criterios: artículos similares a otros ya comprados (<A HREF="http://recsyswiki.com/wiki/Content-Based_Filtering"><I>content-based</I></A>), artículos comprados por usuarios similares (<A HREF="http://en.wikipedia.org/wiki/Recommender_system#Algorithms"><I>user-based</I></A>), o artículos que frecuentemente aparecen en el historial de los usuarios (<A HREF="http://en.wikipedia.org/wiki/Recommender_system#Algorithms"><I>item-based</I></A>). Ejemplos: el <A HREF="http://www.amazon.co.uk/Head-First-Java-Kathy-Sierra/dp/0596009208/">"Customers Who Bought This Item Also Bought"</A> de Amazon.</li>
+	<li>Si un usuario no tiene suficiente historial (o es nuevo en el sistema), se le pueden recomendar artículos que, de manera general, hayan sido comprados muchas veces (populares), recientemente (populares recientes), o de los que se disponga de mucho stock (sobrante). Ejemplos: <A HREF="http://www.amazon.co.uk/">página principal de Amazon</A>.</li>
+</ul>
+
+
+
+<h2>Entrega</h2>
+<p>Las prácticas se deben entregar antes de la fecha de
+evaluación indicada al comienzo del enunciado, teniendo en
+cuenta las horas límite
+de entrega mencionadas en las <a href="normas.html#entrega">normas</a>
+de la asignatura.
+</p>
+
+<p>El fichero <span style="font-style: italic;">.zip</span>
+a entregar debe incluir:</p>
+<ul>
+  <li><span style="font-style: italic;">Código fuente, datos y librerías</span>.
+      <ul>
+          <li>Los ficheros de código fuente se situarán en un directorio "src".</li>
+          <li>Los datos en un directorio "res".</li>
+          <li>Los .jar de las librerías en un directorio "lib".</li>
+      </ul>
+La estructura de directorios será la necesaria
+para que, descomprimiendo el <span style="font-style: italic;">.zip</span>
+entregado y escribiendo "ant run" (es decir, ejecutando el "<span
+ style="font-style: italic;">build.xml</span>" includido en el <span
+ style="font-style: italic;">.zip</span>), la práctica se
+compile y ejecute correctamente.</li>
+
+  <li>Un <span style="font-style: italic;">leeme.txt</span> que
+describa los ficheros incluidos en el <span style="font-style: italic;">.zip</span>.</li>
+  <li>El <span style="font-style: italic;">build.xml</span> usado para
+compilar y ejecutar la práctica (generado por netbeans o creado
+manualmente).<br>
+  </li>
+  <li>Una <span style="font-style: italic;">memoria</span> en pdf<span
+ style="font-style: italic;"></span><span style="font-style: italic;"></span>
+y un directorio javadoc con la documentación generada para cada
+clase. <br>
+  </li>
+</ul>
+<p><span style="font-weight: bold;">NOTA:</span>
+Las entregas que no cumplan los requisitos enumerados en las normas
+recibirán una penalización de 0.5 puntos.</p>
+<span class="copyright">(C) 2010-2011 Escuela Politécnica
+Superior, UAM</span><br>
+<br>
+</body>
+</html>

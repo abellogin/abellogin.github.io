@@ -1,0 +1,160 @@
+<html><head>
+
+
+
+  
+  
+  
+  <link rel="STYLESHEET" href="poo.css">
+
+
+  <title>POO: Pr&aacute;ctica 2</title>
+
+  
+
+  
+</head><body>
+<!-- titulo de la practica y fechas de entrega -->
+<p class="cabecera">Programaci&oacute;n Orientada a Objetos. Curso 08/09</p>
+
+
+
+<h1>Pr&aacute;ctica 2. Clases y Herencia</h1>
+
+
+
+<p class="duracion">Duraci&oacute;n: Semanas del 09, 16 y 23 de marzo (para detalles ver el calendario de pr&aacute;cticas)</p>
+
+
+
+<p class="entrega">Entrega y examen: Semana del 30 de Marzo (para ver la fecha de cada grupo ver el calendario)<br>
+</p>
+
+
+<h2>Objetivo</h2>
+
+<p>Tras la primera pr&aacute;ctica de la asignatura el alumno tiene una visi&oacute;n m&aacute;s profunda del problema, ya que se ha visto obligado a analizarlo, a entender el diagrama que lo define y a completarlo en consecuencia.</p>
+<p>El objetivo de esta pr&aacute;ctica es implementar en Java un proyecto desde cero a partir de un dise&ntilde;o orientado a objetos dado en UML. La raz&oacute;n por la que se parte de un diagrama ya creado es para obligar al alumno a aprender a pensar orientado a objetos.</p>
+<p>El resultado final de esta pr&aacute;ctica ser&aacute; un <a href="practica.pdf" target="blank">sistema de gesti&oacute;n de expedientes</a> que permita realizar todas sus funcionalidades a trav&eacute;s de la l&iacute;nea de comandos. Es muy importante aislar la parte de la entrada y salida de datos del resto de la funcionalidad, ya que esto har&aacute; que la pr&oacute;xima pr&aacute;ctica (interfaces gr&aacute;ficas) sea m&aacute;s f&aacute;cil de adaptar.</p>
+<p>Se valorar&aacute; en gran medida un dise&ntilde;o que haga uso de aspectos tales como la herencia de clases, el polimorfismo o sobrecarga de m&eacute;todos y la reutilizaci&oacute;n de clases Java est&aacute;ndar.</p>
+
+
+<h2>Diagrama de clases</h2>
+
+<p>
+El diagrama completo y comentado que se utilizar&aacute; en esta pr&aacute;ctica se puede enconrtar a continuaci&oacute;n:
+</p>
+<p><img src="completo.gif"></p>
+
+<h2>Pruebas</h2>
+
+<p>
+No se prev&eacute; entregar ning&uacute;n conjunto de test durante el desarrollo de esta pr&aacute;ctica. S&iacute; se entrega un <A HREF="beans.zip">conjunto de clases</A> (las que pertenecen al paquete beans) que permite cargar a petici&oacute;n en el sistema una lista de asignaturas, con todos sus datos incluidos.
+</p>
+<p>
+S&oacute;lo mencionar que el sistema implementado por el alumno debe hacer al mayor n&uacute;mero de particularidades inherentes a un sistema de gesti&oacute;n de expedientes, como por ejemplo el intentar a&ntilde;adir una matr&iacute;cula a un expediente cerrado, permitir que haya asignaturas que no consuman convocatoria, contemplar todos los casos posibles en que una asignatura puede estar aprobada o suspensa, ...
+</p>
+
+
+<h2>Entrega</h2>
+
+<br>
+
+<p>Las pr&aacute;cticas se deben entregar antes de la fecha de correcci&oacute;n
+indicada al comienzo del enunciado, teniendo en cuenta las horas l&iacute;mite
+de entrega mencionadas en las <a href="normas.html#entrega">normas</a>
+de la asignatura. En general, el grupo del lunes tiene hasta las 12 del
+<span style="font-weight: bold;">mediod&iacute;a</span> del mismo lunes, y
+todos los dem&aacute;s grupos tienen <span style="font-weight: bold;">hasta
+las 12 de la noche del </span><span style="font-style: italic;"><span style="font-weight: bold;">d&iacute;a anterior</span> </span>a la fecha de
+correcci&oacute;n.<br>
+</p>
+
+<p>De nuevo, siguiendo las <a href="normas.html">normas de
+la asignatura</a>, el fichero <span style="font-style: italic;">.zip</span>
+a entregar debe incluir:</p>
+
+<ul>
+  <li>un <span style="font-style: italic;">leeme.txt</span> que
+describa los ficheros incluidos en el <span style="font-style: italic;">.zip<br>
+    </span></li>
+  <li>el <span style="font-style: italic;">build.xml</span> usado para
+compilar y ejecutar la pr&aacute;ctica (en general, con el que se entrega con
+el enunciado vale).<br>
+  </li>
+  <li>una <span style="font-style: italic;">memoria</span>.{<span style="font-style: italic;"></span><span style="font-style: italic;">pdf</span>,
+    <span style="font-style: italic;">rtf, odt</span>}. En este caso, la memoria
+puede ser bastante breve, y basta con que expliquen las
+ideas principales de la implementaci&oacute;n de cada una de las funciones
+incompletas. Tambi&eacute;n se
+debe decir si se ha conseguido pasar todos los casos de prueba, o si
+alguno ha dado fallos. En caso de que se produzcan fallos, se debe
+explicar c&oacute;mo se ha intentado resolverlos. Esto s&oacute;lo vale para
+esta primera pr&aacute;ctica: en la P2, P3 y P4, las memorias deber&aacute;n seguir <a href="ejemploMemoria.html">otros criterios</a>.<br>
+  </li>
+  <li>los <span style="font-style: italic;">ficheros de prueba</span>
+usados para verificar que la pr&aacute;ctica funciona. Sobre todo, si se han
+modificado para probar casos espec&iacute;ficos.</li>
+  <li>y <span style="font-style: italic;">los fuentes</span>, en un
+directorio llamado "src" con la estructura de directorios necesaria
+para que, descomprimiendo el <span style="font-style: italic;">.zip</span>
+entregado y escribiendo "ant run" (es decir, ejecutando el "<span style="font-style: italic;">build.xml</span>" includido en el <span style="font-style: italic;">.zip</span>), la pr&aacute;ctica se compile y
+ejecute correctamente los casos de prueba.<br>
+  </li>
+</ul>
+
+<p><span style="font-weight: bold;">NOTA:</span>
+Las entregas que no cumplan los requisitos enumerados en las normas
+recibir&aacute;n una penalizaci&oacute;n de 0.5 puntos.</p>
+
+
+<h2>Ap&eacute;ndice: Sobre estas pr&aacute;cticas<br></h2>
+
+<p>Este apartado contiene una serie de reflexiones sobre el enfoque de
+estas pr&aacute;cticas, porqu&eacute; se hacen as&iacute;, y qu&eacute; se va a pedir en las
+siguientes pr&aacute;cticas.<br>
+</p>
+
+<h3>C&oacute;digo en los enunciados<br></h3>
+
+<p>Las pr&aacute;cticas de POO se diferencian de otras en que, junto con cada
+enunciado, se entrega bastante c&oacute;digo. Esto se hace por los siguientes
+motivos:<br>
+</p>
+
+<ul>
+  <li><span style="font-weight: bold;">Java no es C</span>. Se espera
+que todos los alumnos tengan un nivel bastante alto de programaci&oacute;n en
+C. La sintaxis de Java es muy similar a la de C, y si las primeras
+pr&aacute;cticas pidiesen escribir un programa desde cero, el resultado no
+tendr&iacute;a nada de orientaci&oacute;n a objetos. Si se parte de un programa con
+dise&ntilde;o OO, se evita el riesgo de que todo el programa est&eacute; compuesto de
+m&eacute;todos "public static".</li>
+  <li><span style="font-weight: bold;">Convenciones en Java</span>. hay
+mucha m&aacute;s uniformidad en cuanto a estilo de programaci&oacute;n en Java que en
+otros lenguajes. Hay convenciones de nombrado de clases y de variables,
+convenciones sobre los nombres dados a m&eacute;todos, de formato de
+comentarios de cabecera, de indentado, de organizaci&oacute;n en paquetes,
+etc&eacute;tera. Es mejor partir de un ejemplo en el que todo est&aacute; escrito
+siguiendo estas convenciones que intentar que se apliquen desde cero,
+son muchas.</li>
+  <li><span style="font-weight: bold;">Uso de librer&iacute;as</span>.
+Programar en Java tiene un gran componente de saber usar c&oacute;digo
+existente: las librer&iacute;as disponibles son uno de los puntos fuertes de
+Java. Esto es menos cierto en C, donde la mayor parte de las librer&iacute;as
+son externas (y por tanto, no tan est&aacute;ndares). Es fundamental perder el
+miedo a las librer&iacute;as y saber manejar su documentaci&oacute;n desde un primer
+momento.</li>
+  <li><span style="font-weight: bold;">OO y Patrones</span>. La
+orientaci&oacute;n a objetos promueve la reutilizaci&oacute;n no s&oacute;lo de c&oacute;digo, sino
+tambi&eacute;n de estrategias de dise&ntilde;o ("patrones de dise&ntilde;o"). Esto se da en
+mucho mayor medida que en lenguajes menos abstractos, tipo C. En el
+c&oacute;digo que se entrega se hace uso de varios patrones establecidos. La
+idea es que, desarrollando y extendiendo sobre un buen dise&ntilde;o, se
+mejora la capacidad de entender y crear buenos dise&ntilde;os.<br>
+    <br>
+  </li>
+</ul>
+
+<span class="copyright">(C) 2008-2009 Escuela Polit&eacute;cnica Superior, UAM</span>
+</body></html>

@@ -1,0 +1,94 @@
+div {
+	color:#000000; 
+	font-family:Arial, Verdana; 
+	font-size:12px; 
+	font-style:normal; 
+	font-variant:normal; 
+	font-weight:normal; 
+	text-decoration:none; 
+	line-height:150%;
+}
+
+ul {
+	line-height:200%;
+}
+
+h2, h3 {
+	//text-transform:capitalize;
+	position: relative; 
+	left: 10px; 
+}
+
+.email, .email_at {
+	font-family:Times New Roman; 
+	font-size:14px; 
+	text-decoration:none; 
+}
+
+.email_at {
+	font-size:12px; 
+}
+
+div.my_image {
+	text-align:center;
+}
+
+div#home_hea, div#tea_hea, div#pub_hea {
+	// z-index: 1; 
+	position: relative; 
+	top:5px; 
+	left: 10px; 
+	background-color:#FFFFFF; 
+	width:800px; 
+	height:80px; 
+	overflow:auto;
+}
+
+div#home_hea {
+	height:220px; 
+}
+
+div#pub_hea {
+	height:90px; 
+}
+
+.my_list, #home_res p {
+	//background-color:blue; 
+	margin-left:20px;
+	text-align:justify;
+}
+li.my_list {
+	//background-color:green; 
+	margin-left:0px;
+}
+.ts {
+	float: right;
+	font-size:14px; 
+}
+
+.title {
+	display: block;
+	font-style: italic;
+}
+
+.venue {
+	display: block;
+}
+
+.links {
+	display: block;
+}
+
+.authorme {
+	font-weight: bold;
+}
+
+.impact {
+	font-size:11px; 
+	display: block;
+}
+
+.note {
+	display: block;
+	font-size:11px; 
+}

@@ -1,0 +1,41 @@
+<?xml version="1.0" ?>
+<tienda nombre="Tienda virtual de prueba">
+    <usuarios>
+        <usuario dni="0000001" nombre="Jose" apellidos="Lopez" saldo="300"/>
+        <usuario dni="0001002" nombre="Pedro" apellidos="Martinez" saldo="20.4"/>
+    </usuarios>
+    <articulos>
+        <articulo id="02" tipo="Libro" titulo="El hobbit" autor="Tolkien, J.R.R" editorial="Minotauro" stock="6" coste="20.1"/>
+        <articulo id="01" tipo="Libro" titulo="La historia interminable" autor="Ende, Michael" editorial="Alfaguara" stock="1" coste="26.5"/>
+        <articulo id="06" tipo="Libro" titulo="El hereje" autor="Delibes, Miguel" editorial="Planeta DeAgostini" stock="4" coste="30"/>
+        <articulo id="03" tipo="Disco" titulo="Crush" interprete="Bon Jovi" agno="2000" stock="17" coste="10.25"/>
+        <articulo id="12" tipo="Disco" titulo="Fallen" interprete="Evanescence" agno="2003" stock="0" coste="9" />
+        <articulo id="05" tipo="Disco" titulo="Sin noticias de Holanda" interprete="Melendi" agno="2003" stock="10" coste="6"/>
+        <articulo id="25" tipo="Disco" titulo="Que el cielo espere sentao" interprete="Melendi" agno="2005" stock="3" coste="6"/>
+        <articulo id="26" tipo="Libro" titulo="El gen egoista" autor="Dawkins, Richard" editorial="Salvat" stock="2" coste="27.85"/>
+        <articulo id="10" tipo="Pelicula" titulo="Identidad" genero="Thriller" director="James Mangold" stock="2" coste="9">
+    		<actor>John Cusack</actor>
+    		<actor>Ray Liotta</actor>
+    		<actor>Amanda Peet</actor>
+        </articulo>
+        <articulo id="09" tipo="Pelicula" titulo="300" genero="Fantastica" director="Zack Snyder" stock="7" coste="8.5">
+    		<actor>Gerard Butler</actor>
+    		<actor>Lena Heady</actor>
+    		<actor>David Wenham</actor>
+        </articulo>
+        <articulo id="21" tipo="Pelicula" titulo="Gladiator, extendida" genero="Drama" director="Ridley Scott" stock="1" coste="10">
+    		<actor>Russell Crowe</actor>
+    		<actor>Joaquin Phoenix</actor>
+    		<actor>Connie Nielsen</actor>
+        </articulo>
+        <articulo id="20" tipo="Pelicula" titulo="Gladiator" genero="Drama" director="Ridley Scott" stock="3" coste="18">
+    		<actor>Russell Crowe</actor>
+    		<actor>Joaquin Phoenix</actor>
+    		<actor>Connie Nielsen</actor>
+        </articulo>
+        <articulo id="32" tipo="Pelicula" titulo="Cadena Perpetua" genero="Drama" director="Frank Darabont" stock="12" coste="5">
+    		<actor>Tim Robbins</actor>
+    		<actor>Morgan Freeman</actor>
+        </articulo>
+    </articulos>
+</tienda>

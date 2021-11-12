@@ -1,0 +1,158 @@
+<html><head>
+
+
+
+  
+  
+  
+  <link rel="STYLESHEET" href="poo.css">
+
+
+  <title>POO: Pr&aacute;ctica 3</title>
+
+  
+
+  
+</head><body>
+<!-- titulo de la practica y fechas de entrega -->
+<p class="cabecera">Programaci&oacute;n Orientada a Objetos. Curso 08/09</p>
+
+
+
+<h1>Pr&aacute;ctica 3. Interfaces gr&aacute;ficas</h1>
+
+
+
+<p class="duracion">Duraci&oacute;n: Semanas del 30/03, 13/04, 20/04, y 27/04 (para detalles ver el calendario de pr&aacute;cticas)</p>
+
+
+
+<p class="entrega">Entrega y examen: Semana del 04 de Mayo (para ver la fecha de cada grupo ver el calendario)<br>
+</p>
+
+
+<h2>Objetivo</h2>
+
+<p>
+Tras haber desarrollado en la segunda pr&aacute;ctica el core del sistema de gesti&oacute;n de expedientes con una interfaz de usuario en modo texto, el objetivo de la tercera pr&aacute;ctica es que el alumno desarrolle una interfaz gr&aacute;fica en SWING <b>amigable</b> para el usuario de la aplicaci&oacute;n
+apoy&aacute;ndose en los m&oacute;dulos funcionales ya desarrollados. Si el trabajo realizado en la pr&aacute;ctica anterior es lo suficientemente modular, en este pr&aacute;ctica no deber&iacute;a modificarse el core de la aplicaci&oacute;n.
+</p>
+
+<p>
+Como base del desarrollo se entrega un <A HREF="io.zip">conjunto de clases</A> que crean la ventana principal de la aplicaci&oacute;n e incluyen ejemplos de los mecanismos de eventos utilizados por SWING para enlazar las componentes visuales con la l&oacute;gica de negocio.
+<center><img src="ejp3.gif"></center>
+</p>
+
+<p>
+La calificaci&oacute;n de la pr&aacute;ctica m&aacute;s que en el aspecto meramente est&eacute;tico de la aplicaci&oacute;n se basar&aacute; en la sencillez de uso y amigabilidad con el usuario (unificaci&oacute;n de aspectos visuales, mensajes de feedback...).
+</p>
+
+<h2>Pruebas</h2>
+
+<p>
+No se prev&eacute; entregar ning&uacute;n conjunto de test durante el desarrollo de esta pr&aacute;ctica. No obstante, se valorar&aacute; la entrega de testers de los distintos m&oacute;dulos funcionales. 
+</p>
+
+
+<h2>Entrega</h2>
+
+<br>
+
+<p>Las pr&aacute;cticas se deben entregar antes de la fecha de correcci&oacute;n
+indicada al comienzo del enunciado, teniendo en cuenta las horas l&iacute;mite
+de entrega mencionadas en las <a href="normas.html#entrega">normas</a>
+de la asignatura. En general, el grupo del lunes tiene hasta las 12 del
+<span style="font-weight: bold;">mediod&iacute;a</span> del mismo lunes, y
+todos los dem&aacute;s grupos tienen <span style="font-weight: bold;">hasta
+las 12 de la noche del </span><span style="font-style: italic;"><span style="font-weight: bold;">d&iacute;a anterior</span> </span>a la fecha de
+correcci&oacute;n.<br>
+</p>
+
+<p>De nuevo, siguiendo las <a href="normas.html">normas de
+la asignatura</a>, el fichero <span style="font-style: italic;">.zip</span>
+a entregar debe incluir:</p>
+
+<ul>
+  <li>un <span style="font-style: italic;">leeme.txt</span> que
+describa los ficheros incluidos en el <span style="font-style: italic;">.zip<br>
+    </span></li>
+  <li>el <span style="font-style: italic;">build.xml</span> usado para
+compilar y ejecutar la pr&aacute;ctica (en general, con el que se entrega con
+el enunciado vale).<br>
+  </li>
+  <li>una <span style="font-style: italic;">memoria</span>.{<span style="font-style: italic;"></span><span style="font-style: italic;">pdf</span>,
+    <span style="font-style: italic;">rtf, odt</span>}. En este caso, la memoria
+puede ser bastante breve, y basta con que expliquen las
+ideas principales de la implementaci&oacute;n de cada una de las funciones
+incompletas. Tambi&eacute;n se
+debe decir si se ha conseguido pasar todos los casos de prueba, o si
+alguno ha dado fallos. En caso de que se produzcan fallos, se debe
+explicar c&oacute;mo se ha intentado resolverlos. Esto s&oacute;lo vale para
+esta primera pr&aacute;ctica: en la P2, P3 y P4, las memorias deber&aacute;n seguir <a href="ejemploMemoria.html">otros criterios</a>.<br>
+  </li>
+  <li>los <span style="font-style: italic;">ficheros de prueba</span>
+usados para verificar que la pr&aacute;ctica funciona. Sobre todo, si se han
+modificado para probar casos espec&iacute;ficos.</li>
+  <li>y <span style="font-style: italic;">los fuentes</span>, en un
+directorio llamado "src" con la estructura de directorios necesaria
+para que, descomprimiendo el <span style="font-style: italic;">.zip</span>
+entregado y escribiendo "ant run" (es decir, ejecutando el "<span style="font-style: italic;">build.xml</span>" includido en el <span style="font-style: italic;">.zip</span>), la pr&aacute;ctica se compile y
+ejecute correctamente los casos de prueba.<br>
+  </li>
+</ul>
+
+<p><span style="font-weight: bold;">NOTA:</span>
+Las entregas que no cumplan los requisitos enumerados en las normas
+recibir&aacute;n una penalizaci&oacute;n de 0.5 puntos.</p>
+
+
+<h2>Ap&eacute;ndice: Sobre estas pr&aacute;cticas<br></h2>
+
+<p>Este apartado contiene una serie de reflexiones sobre el enfoque de
+estas pr&aacute;cticas, porqu&eacute; se hacen as&iacute;, y qu&eacute; se va a pedir en las
+siguientes pr&aacute;cticas.<br>
+</p>
+
+<h3>C&oacute;digo en los enunciados<br></h3>
+
+<p>Las pr&aacute;cticas de POO se diferencian de otras en que, junto con cada
+enunciado, se entrega bastante c&oacute;digo. Esto se hace por los siguientes
+motivos:<br>
+</p>
+
+<ul>
+  <li><span style="font-weight: bold;">Java no es C</span>. Se espera
+que todos los alumnos tengan un nivel bastante alto de programaci&oacute;n en
+C. La sintaxis de Java es muy similar a la de C, y si las primeras
+pr&aacute;cticas pidiesen escribir un programa desde cero, el resultado no
+tendr&iacute;a nada de orientaci&oacute;n a objetos. Si se parte de un programa con
+dise&ntilde;o OO, se evita el riesgo de que todo el programa est&eacute; compuesto de
+m&eacute;todos "public static".</li>
+  <li><span style="font-weight: bold;">Convenciones en Java</span>. hay
+mucha m&aacute;s uniformidad en cuanto a estilo de programaci&oacute;n en Java que en
+otros lenguajes. Hay convenciones de nombrado de clases y de variables,
+convenciones sobre los nombres dados a m&eacute;todos, de formato de
+comentarios de cabecera, de indentado, de organizaci&oacute;n en paquetes,
+etc&eacute;tera. Es mejor partir de un ejemplo en el que todo est&aacute; escrito
+siguiendo estas convenciones que intentar que se apliquen desde cero,
+son muchas.</li>
+  <li><span style="font-weight: bold;">Uso de librer&iacute;as</span>.
+Programar en Java tiene un gran componente de saber usar c&oacute;digo
+existente: las librer&iacute;as disponibles son uno de los puntos fuertes de
+Java. Esto es menos cierto en C, donde la mayor parte de las librer&iacute;as
+son externas (y por tanto, no tan est&aacute;ndares). Es fundamental perder el
+miedo a las librer&iacute;as y saber manejar su documentaci&oacute;n desde un primer
+momento.</li>
+  <li><span style="font-weight: bold;">OO y Patrones</span>. La
+orientaci&oacute;n a objetos promueve la reutilizaci&oacute;n no s&oacute;lo de c&oacute;digo, sino
+tambi&eacute;n de estrategias de dise&ntilde;o ("patrones de dise&ntilde;o"). Esto se da en
+mucho mayor medida que en lenguajes menos abstractos, tipo C. En el
+c&oacute;digo que se entrega se hace uso de varios patrones establecidos. La
+idea es que, desarrollando y extendiendo sobre un buen dise&ntilde;o, se
+mejora la capacidad de entender y crear buenos dise&ntilde;os.<br>
+    <br>
+  </li>
+</ul>
+
+<span class="copyright">(C) 2008-2009 Escuela Polit&eacute;cnica Superior, UAM</span>
+</body></html>

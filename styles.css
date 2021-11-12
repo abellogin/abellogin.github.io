@@ -1,0 +1,42 @@
+	body {
+	margin:50px 0px; padding:0px;
+	text-align:center;
+	}
+	div , table {
+	width: 800px;
+	margin:0px auto;
+	text-align:left;
+	padding:15px;
+	/* border:1px dashed #333;
+	background-color:#eee; */
+	z-index: 2;
+	}
+	div#title {
+	width: 800px;
+	height: 200px;
+	overflow: auto;
+	padding: 10px;
+	font-weight: bold;
+	font-size: 40px;
+	vertical-align: middle;
+	text-align: center;
+	}
+	div#left {
+	width: 250px;
+	overflow: auto;
+	padding: 10px;
+	}
+	div#center {
+	width: 350px;
+	overflow: auto;
+	padding: 10px;
+	}
+	div#right {
+	width: 200px;
+	overflow: auto;
+	padding: 10px;
+	}            
+	div#invisible {
+	visibility: hidden;
+	display:none;
+	}            

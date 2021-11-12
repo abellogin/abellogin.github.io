@@ -1,0 +1,306 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html>
+<head>
+  <meta content="text/html; charset=ISO-8859-15"
+ http-equiv="content-type">
+  <link rel="STYLESHEET" href="poo_p1.css">
+  <title>POO: Práctica 1</title>
+</head>
+<body>
+<!-- titulo de la practica y fechas de entrega -->
+<p class="cabecera">Programación Orientada a Objetos. Curso
+2010/2011<span style="font-weight: bold;"><br>
+</span></p>
+<h1>Práctica 1. Introducción al lenguaje Java</h1>
+<table style="text-align: left; width: 99%;" border="1" cellpadding="2"
+ cellspacing="2">
+  <tbody>
+    <tr>
+      <td style="vertical-align: top;">Calendario<br>
+      </td>
+      <td style="vertical-align: top;">Lunes<br>
+      </td>
+      <td style="vertical-align: top;">Martes<br>
+      </td>
+      <td style="vertical-align: top;">Miércoles<br>
+      </td>
+      <td style="vertical-align: top;">Jueves<br>
+      </td>
+      <td style="vertical-align: top;">Viernes<br>
+      </td>
+      <td style="vertical-align: top;">Observaciones<br>
+      </td>
+    </tr>
+    <tr>
+      <td style="vertical-align: top;">Inicio<br>
+      </td>
+      <td style="vertical-align: top;">21/2<br>
+      </td>
+      <td style="vertical-align: top;">22/2<br>
+      </td>
+      <td style="vertical-align: top;">23/2<br>
+      </td>
+      <td style="vertical-align: top;">17/2<br>
+      </td>
+      <td style="vertical-align: top;">18/2<br>
+      </td>
+      <td style="vertical-align: top;"><br>
+      </td>
+    </tr>
+    <tr>
+      <td style="vertical-align: top;">Evaluación<br>
+      </td>
+      <td style="vertical-align: top;">07/3<br>
+      </td>
+      <td style="vertical-align: top;">08/3<br>
+      </td>
+      <td style="vertical-align: top;">09/3<br>
+      </td>
+      <td style="vertical-align: top;">03/3<br>
+      </td>
+      <td style="vertical-align: top;">04/3<br>
+      </td>
+      <td style="vertical-align: top;">Entrega el día anterior.
+El grupo del lunes 2 horas antes del comienzo de la clase<br>
+      </td>
+    </tr>
+  </tbody>
+</table>
+<!--
+<p class="duracion"><br>
+</p>
+<div class="erratas">
+<p> Enlace al <a href="http://argouml.tigris.org/" target="blank">sitio
+de descarga</a> de ArgoUML, herramienta para generar el diagrama de
+clases de la práctica. </p>
+</div>
+-->
+<h2>Objetivo</h2>
+<p>El objetivo de la primera práctica es aprender la sintaxis
+básica de
+Java (suponiendo experiencia en C) y adquirir familiaridad
+con el entorno de desarrollo <a href="http://www.netbeans.org">NetBeans</a>.
+Las prácticas del curso consistirán en implementar un programa para 
+gestionar una tienda virtual. En la primera práctica el alumno deberá
+desarrollar un código sencillo que implemente la funcionalidad básica de la tienda:
+gestionar el almacén, gestionar los clientes y realizar ventas. Como punto de 
+partida se facilita un <a href="P1Incompleta.zip">proyecto de netbeans</a> incompleto, un 
+<a href="p1.gif">diagrama de clases</a> que muestra las relaciones entre las clases Tienda, 
+Cliente y Articulo, y una clase <a href="Main.java">Main</a> de ejemplo junto con la <a href="salida.txt">salida</a>
+que debería generar.</p>
+
+<h2>Tareas</h2>
+<ol>
+<li>
+Abrir el <a href="P1Incompleta.zip">proyecto</a> que se facilita, compilarlo y ejecutarlo dentro del 
+entorno de desarrollo NetBeans. Este proyecto servirá de punto de partida para el resto de la
+práctica.
+</li> 
+<li>
+Completar las clases Tienda y Articulo, y crear la clase Cliente, de acuerdo con el <a href="p1.gif">diagrama
+de clases</a> facilitado (ver apéndice). Para probar el código una vez completado se facilita una clase 
+<a href="Main.java">Main</a> de prueba. Si todo funciona correctamente el programa debería generar la 
+<a href="salida.txt">salida</a> que se describe en el apéndice.
+</li>
+<li>
+Añadir dos clases adicionales, Carrito y Almacen, para gestionar el carrito del cliente y el stock de la 
+tienda. 
+</li>
+</ol>
+
+<p><span style="font-weight: bold;">NOTA:</span>
+Todas las clases deberán incluir la 
+<a href="http://java.sun.com/j2se/javadoc/writingdoccomments/index.html">documentación
+JavaDoc</a> para poder generar una
+memoria html que describa cada clase y método diseñado.</p>
+
+<h2>Apéndice</h2>
+<ul>
+	<li>Diagrama de clases
+	<p><img src="p1.gif"></p>
+	</li>
+	<li>Main de prueba
+	<pre>
+    public static void main(String[] args) {
+
+        // Creamos tienda, llenamos el almacen y mostramos el inventario:
+        Tienda t = new Tienda();
+        t.llenarAlmacen();
+        t.mostrarInventario();
+        
+        // Creamos cliente, lo registramos en la tienda y mostramos su saldo:
+        Cliente c = new Cliente("Pedro", 1000);
+        t.aniadirCliente(c);
+        c.mostrarSaldo();
+
+        // Obtenemos array de articulos en la tienda:
+        Articulo[] articulos = t.obtenerArticulos();
+
+        // Ejemplo de venta directa:
+        t.vender(articulos[0],c);
+
+        // Mostramos el estado del inventario, el saldo y el historial del
+        // cliente despues de la compra:
+        t.mostrarInventario();
+        c.mostrarSaldo();
+        c.mostrarHistorial();
+
+        // Ejemplo de venta mediante el carrito:
+        t.meterAlCarrito(articulos[1],c);
+        t.meterAlCarrito(articulos[3],c);
+        c.mostrarCarrito();
+        t.venderCarrito(c);
+
+        // Mostramos el estado del inventario, el saldo y el historial del
+        // cliente despues de la compra:
+        t.mostrarInventario();
+        c.mostrarSaldo();
+        c.mostrarHistorial();
+
+        //----------------------------------------------------------------------
+        // Algunas cosas prohibidas:
+        //----------------------------------------------------------------------
+
+        // 1. Intentamos meter al carrito un articulo que no esta en el inventario:
+        t.meterAlCarrito(new Articulo(99,"ArticuloTrampa",0),c);
+
+        // 2. Intentamos comprar un articulo que no esta en el inventario:
+        t.vender(new Articulo(99,"ArticuloTrampa",0),c);
+
+        // 3. Un cliente no registrado intenta comprar en la tienda:
+        t.vender(articulos[0],new Cliente("ClienteNoRegistrado"));
+    }
+	</pre>
+	</li>
+	<li>Salida esperada
+	<pre>
+Mostrando inventario de la tienda:
+-----------------------------------------------------------
+[ 0] Articulo: Cero (ref. 0), 10.0 euros + iva
+       Cantidad en stock: 12
+-----------------------------------------------------------
+[ 1] Articulo: Uno (ref. 1), 20.0 euros + iva
+       Cantidad en stock: 9
+-----------------------------------------------------------
+[ 2] Articulo: Dos (ref. 2), 15.0 euros + iva
+       Cantidad en stock: 10
+-----------------------------------------------------------
+[ 3] Articulo: Tres (ref. 3), 180.0 euros + iva
+       Cantidad en stock: 15
+-----------------------------------------------------------
+[ 4] Articulo: Cuatro (ref. 4), 105.0 euros + iva
+       Cantidad en stock: 4
+-----------------------------------------------------------
+[ 5] Articulo: Cinco (ref. 5), 99.0 euros + iva
+       Cantidad en stock: 1
+-----------------------------------------------------------
+Saldo actual de Pedro: 1000.0
+Vendiendo articulo Cero a cliente Pedro:
+Mostrando inventario de la tienda:
+-----------------------------------------------------------
+[ 0] Articulo: Cero (ref. 0), 10.0 euros + iva
+       Cantidad en stock: 11
+-----------------------------------------------------------
+[ 1] Articulo: Uno (ref. 1), 20.0 euros + iva
+       Cantidad en stock: 9
+-----------------------------------------------------------
+[ 2] Articulo: Dos (ref. 2), 15.0 euros + iva
+       Cantidad en stock: 10
+-----------------------------------------------------------
+[ 3] Articulo: Tres (ref. 3), 180.0 euros + iva
+       Cantidad en stock: 15
+-----------------------------------------------------------
+[ 4] Articulo: Cuatro (ref. 4), 105.0 euros + iva
+       Cantidad en stock: 4
+-----------------------------------------------------------
+[ 5] Articulo: Cinco (ref. 5), 99.0 euros + iva
+       Cantidad en stock: 1
+-----------------------------------------------------------
+Saldo actual de Pedro: 990.0
+Historial de compras de Pedro:
+-----------------------------------------------------------
+Cero (ref. 0), 10.0 euros + iva comprado en Tue Feb 15 14:07:02 CET 2011
+-----------------------------------------------------------
+Contenido del carrito de Pedro:
+-----------------------------------------------------------
+ -- Uno (ref. 1), 20.0 euros + iva
+ -- Tres (ref. 3), 180.0 euros + iva
+-----------------------------------------------------------
+Vendiendo articulo Uno a cliente Pedro:
+Vendiendo articulo Tres a cliente Pedro:
+Mostrando inventario de la tienda:
+-----------------------------------------------------------
+[ 0] Articulo: Cero (ref. 0), 10.0 euros + iva
+       Cantidad en stock: 11
+-----------------------------------------------------------
+[ 1] Articulo: Uno (ref. 1), 20.0 euros + iva
+       Cantidad en stock: 8
+-----------------------------------------------------------
+[ 2] Articulo: Dos (ref. 2), 15.0 euros + iva
+       Cantidad en stock: 10
+-----------------------------------------------------------
+[ 3] Articulo: Tres (ref. 3), 180.0 euros + iva
+       Cantidad en stock: 14
+-----------------------------------------------------------
+[ 4] Articulo: Cuatro (ref. 4), 105.0 euros + iva
+       Cantidad en stock: 4
+-----------------------------------------------------------
+[ 5] Articulo: Cinco (ref. 5), 99.0 euros + iva
+       Cantidad en stock: 1
+-----------------------------------------------------------
+Saldo actual de Pedro: 790.0
+Historial de compras de Pedro:
+-----------------------------------------------------------
+Cero (ref. 0), 10.0 euros + iva comprado en Tue Feb 15 14:07:02 CET 2011
+-----------------------------------------------------------
+Uno (ref. 1), 20.0 euros + iva comprado en Tue Feb 15 14:07:02 CET 2011
+-----------------------------------------------------------
+Tres (ref. 3), 180.0 euros + iva comprado en Tue Feb 15 14:07:02 CET 2011
+-----------------------------------------------------------
+  -- Error: Articulo no existe en la tienda.
+Vendiendo articulo ArticuloTrampa a cliente Pedro:
+  -- Error: Articulo no existe en la tienda.
+Vendiendo articulo Cero a cliente ClienteNoRegistrado:
+  -- Error: Cliente no esta registrado en la tienda.
+</pre>
+	</li>
+</ul>
+
+<h2>Entrega</h2>
+<p>Las prácticas se deben entregar antes de la fecha de
+evaluación indicada al comienzo del enunciado, teniendo en
+cuenta las horas límite
+de entrega mencionadas en las <a href="normas.html#entrega">normas</a>
+de la asignatura.<br>
+</p>
+<p>El fichero <span style="font-style: italic;">.zip</span>
+a entregar debe incluir:</p>
+<ul>
+  <li>un <span style="font-style: italic;">leeme.txt</span> que
+describa los ficheros incluidos en el <span style="font-style: italic;">.zip</span>.</li>
+  <li>el <span style="font-style: italic;">build.xml</span> usado para
+compilar y ejecutar la práctica (generado por netbeans o creado
+manualmente).<br>
+  </li>
+  <li>una <span style="font-style: italic;">memoria</span> en pdf<span
+ style="font-style: italic;"></span><span style="font-style: italic;"></span>
+y un directorio javadoc con la documentación generada para cada
+clase.</li>
+  <li>y <span style="font-style: italic;">los fuentes</span>, en un
+directorio llamado "src" con la estructura de directorios necesaria
+para que, descomprimiendo el <span style="font-style: italic;">.zip</span>
+entregado y escribiendo "ant run" (es decir, ejecutando el "<span
+ style="font-style: italic;">build.xml</span>" includido en el <span
+ style="font-style: italic;">.zip</span>), la práctica se
+compile y
+ejecute correctamente los casos de prueba.</li>
+</ul>
+<p><span style="font-weight: bold;">NOTA:</span>
+Las entregas que no cumplan los requisitos enumerados en las normas
+recibirán una penalización de 0.5 puntos.</p>
+
+<span class="copyright">(C) 2010-2011 Escuela Politécnica
+Superior, UAM</span><br>
+<br>
+</body>
+</html>

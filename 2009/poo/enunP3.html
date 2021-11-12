@@ -1,0 +1,257 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html>
+<head>
+  <meta content="text/html; charset=ISO-8859-15"
+ http-equiv="content-type">
+  <link rel="STYLESHEET" href="../poo.css">
+  <title>POO: Práctica 3</title>
+</head>
+<body>
+<!-- titulo de la practica y fechas de entrega -->
+<p class="cabecera">Programación Orientada a Objetos. Curso
+2009/2010<span style="font-weight: bold;"><br>
+</span></p>
+<h1>Práctica 3. Interfaces de usuario y librerías</h1>
+<table style="text-align: left; width: 80%;" border="1" cellpadding="2"
+ cellspacing="2">
+  <tbody>
+    <tr>
+      <td style="vertical-align: top;">Calendario
+      </td>
+      <td style="vertical-align: top;">Lunes
+      </td>
+      <td style="vertical-align: top;">Martes
+      </td>
+      <td style="vertical-align: top;">Miércoles
+      </td>
+      <td style="vertical-align: top;">Jueves
+      </td>
+      <td style="vertical-align: top;">Viernes
+      </td>
+      <td style="vertical-align: top;">Observaciones
+      </td>
+    </tr>
+    <tr>
+      <td style="vertical-align: top;">Inicio
+      </td>
+      <td style="vertical-align: top;">19/04
+      </td>
+      <td style="vertical-align: top;">20/04
+      </td>
+      <td style="vertical-align: top;">21/04
+      </td>
+      <td style="vertical-align: top;">22/04
+      </td>
+      <td style="vertical-align: top;">16/04
+      </td>
+      <td style="vertical-align: top;">
+      </td>
+    </tr>
+    <tr>
+      <td style="vertical-align: top;">Evaluación
+      </td>
+      <td style="vertical-align: top;">17/05
+      </td>
+      <td style="vertical-align: top;">18/05
+      </td>
+      <td style="vertical-align: top;">19/05
+      </td>
+      <td style="vertical-align: top;">20/05
+      </td>
+      <td style="vertical-align: top;">21/05
+      </td>
+      <td style="vertical-align: top;">Entrega el día anterior.
+El grupo del lunes 2 horas antes del comienzo de la clase.
+      </td>
+    </tr>
+  </tbody>
+</table>
+<p class="duracion"><br>
+</p>
+<h2>Objetivos</h2>
+<p>En esta práctica el alumno se formará en las siguientes capacidades:</p>
+<ul>
+  <li>Desarrollo de interfaces de usuario con tecnología orientada a objetos.</li>
+  <li>Desarrollo y manejo de estructuras de datos avanzadas orientadas a objetos.</li>
+  <li>Creación y manejo de excepciones.</li>
+  <li>Utilización de librerías de clases desarrolladas por terceros.</li>
+  <li>Opcionalmente, utilización de elementos de RMI avanzado.</li>
+</ul>
+
+<h2>Descripción del proyecto</h2>
+
+<p>El trabajo a realizar consiste en la implementación de un sistema de gestión de redes sociales,
+en el que los usuarios puedan darse de alta y añadir a otros usuarios en su lista de contactos (y opcionalmente, comunicarse entre sí).
+El programa gestionará la creación de estructuras internas en las que se representen los datos
+de los usuarios y las relaciones entre ellos. La aplicación ofrecerá una interfaz de usuario para
+que la interacción con el sistema se realice de forma fácil para los usuarios.
+</p>
+
+<p>La práctica ilustra dos aspectos fundamentales relacionados con la praxis orientada a objetos,
+y Java en particular: 1) el desarrollo de interfaces gráficas, y 2) la reutilización de librerías.
+Respecto al segundo aspecto, se utilizarán en concreto librerías para a) el manejo de estructuras de
+grafo, y b) la lectura y escritura de datos en formato XML.
+</p>
+
+<p>Las funcionalidades a desarrollar se describen en los siguientes apartados.
+</p>
+
+<h4><b>1.&nbsp; Creación y almacenamiento de datos</b></h4>
+
+<p>Las <b>estructuras de datos</b> a definir son las siguientes (sin excluir otras adicionales que el alumno juzgue oportunas):
+<ul>
+    <li>Usuarios: se incluirán datos personales, como mínimo nombre, nick (único para cada usuario), password, y un ID único.</li>
+    <li>Relaciones entre usuarios: se pueden crear como una estructura (clase) explícita, de forma que
+se pueda registrar, por ejemplo, la fecha en que se creó el contacto entre dos usuarios.</li>
+    <li>Red social: estructura de grafo basada en las dos clases anteriores, utilizando la librería JUNG.</li>
+</ul>
+
+<p>Además de definir las estructuras anteriores:</p>
+<ul>
+    <li>Se escribirá el código necesario para <b>leer y guardar</b> todos los datos
+    de una red social en un fichero XML. Se utilizará para ello la librería JDOM.</li>
+    <li>Se hará un control sencillo de consistencia de datos comprobando, por ejemplo, que no se dupliquen
+    nicks ni IDs en diferentes usuarios, que no se dupliquen relaciones, o que una relación no haga referencia a un usuario que no exista.
+    Este chequeo se gestionará mediante la emisión de <b>excepciones</b> propias cuando se detecten este tipo de
+    inconsistencias.</li>
+</ul>
+
+<h4><b>2.&nbsp; Interfaz básica para datos de usuario</b></h4>
+
+<p>Se implementará una <b>interfaz gráfica</b> para que los usuarios puedan darse de alta, visualizar y editar
+sus datos fácilmente. </p>
+
+<p>Las funcionalidades a ofrecer al usuario son, al menos, las siguientes:
+</p>
+<ul>
+    <li>Registrar nuevo usuario.</li>
+    <li>Logearse en el sistema. Esta acción es necesaria para acceder a todas las demás funcionalidades
+  (excepto crear un nuevo usuario, para lo que no se necesita login previo).</li>
+    <li>Ver y editar los datos del usuario.</li>
+    <li>Buscar y visualizar a otros usuarios (dado el nombre o nick).</li>
+</ul>
+
+<p>Naturalmente estas funcionalidades precisarán la ampliación de las clases internas con
+    los métodos (y en su caso datos) necesarios para efectuar estas operaciones.
+</p>
+
+<p>El archivo XML deberá actualizarse cada vez que en el programa se realice un cambio (nuevo usuario, editar datos, etc.) que afecte a
+    los datos de la red social, de forma que ésta sea persistente.
+</p>
+
+<h4><b>3.&nbsp; Creación y manejo de la red social</b></h4>
+
+<p>Se ampliará la interfaz de usuario para la <b>visualización, creación, y exploración de la red social</b> de contactos,
+con las siguientes funcionalidades:
+</p>
+<ul>
+    <li>Añadir usuarios a la lista de contactos de un usuario. En principio la relación será siempre mutua, pero el alumno puede explorar otras posibilidades si lo desea.</li>
+    <li>Visualizar la lista de contactos en una lista lineal (JList, JTable...).</li>
+    <li>Dado un usuario logeado y otro usuario (cualquiera) seleccionado, mostrar:
+        <ul>
+            <li>Los contactos comunes, si los hay.</li>
+            <li>La distancia más corta ("grados de separación") entre ambos usuarios en la red.</li>
+        </ul>
+        Nota: utilizar las clases JUNG que ofrecen directamente estas operaciones.
+     </li>
+</ul>
+
+<p>Se valorará la calidad de la interfaz de usuario (claridad, facilidad de uso, fluidez de ejecución), así como el uso
+de componentes avanzadas (p.e. JTable).
+</p>
+
+<p><u>Opcionalmente:</u></p>
+
+<ul>
+    <li>La creación de un contacto necesitará la aceptación (asíncrona) del otro usuario.
+  Cuando este usuario entre después en el sistema, se le informa de las peticiones de contacto que le hayan llegado, para que las
+  acepte o no. Sólo en caso positivo tendrá efecto la creación del contacto.</li>
+    <li>Dados el usuario conectado y un usuario seleccionado, mostrar la cadena de usuarios que forman el camino más corto entre ambos en la red (existe una clase JUNG que
+    proporciona directamente esta funcionalidad).</li>
+    <li>Visualización y manipulación gráfica:
+        <ul>
+            <li>Visualizar gráficamente toda la red social, en forma de grafo. <br>
+  Nota: el código para esta parte deberá ser escrito enteramente por el alumno, sin utilizar librerías
+  ni clases como las que de hecho incluye JUNG para visualización. La disposición automática de grafos es un problema complejo en general, y se aceptará cualquier
+  algoritmo sencillo.</li>
+            <li>Añadir facilidades interactivas para editar la red social sobre su representación gráfica
+  mediante manipulación directa (mover nodos, añadir nodos, añadir arcos, etc.). <br>
+  Nota: puesto que estas funcionalidades permiten editar las relaciones de cualquier usuario, serán accesibles sólo para un superusuario "admin" con
+  password "admin".</li>
+            <li>Permitir guardar/recuperar el estado del diagrama.</li>
+        </ul>
+  </li>
+</ul>
+
+<h4><b>4.&nbsp; <u>Opcional</u>: arquitectura cliente-servidor y chat</b></h4>
+
+<p>Extender el programa para permitir la conexión simultánea de varios usuarios desde <b>clientes remotos</b>, de forma que
+los datos de los usuarios y la red social se gestionen en un <b>servidor central</b>.
+</p>
+
+<p>Sobre esta arquitectura, se añadirá la siguiente funcionalidad:
+</p>
+  <ul>
+      <li>Visualizar en tiempo real la lista de usuarios conectados.</li>
+      <li>Servicio de chat entre usuarios.</li>
+  </ul>
+
+<p>Se valorará el uso adecuado de objetos por valor u objetos remotos, según se adecúe a cada caso, así como la
+utilización de callbacks.
+</p>
+
+<h2>Material de referencia</h2>
+
+<p>Se deja intencionadamente al alumno la labor de buscar y entender el manejo de las librerías JUNG y JDOM,
+    así como la documentación de estas librerías, naturalmente con la asistencia de los profesores en las clases de laboratorio.
+</p>
+
+<p>Se facilita por otra parte como ayuda un <a href="social-ejemplo.zip">ejemplo parcial de código</a> ilustrativo
+del trabajo a realizar, junto con un ejemplo de fichero de datos en XML. El alumno es libre de reutilizar
+este código o no, o seguir cualquier modificación, según su parecer y las indicaciones del profesor de prácticas.
+</p>
+
+<h2>Entrega</h2>
+<p>Las prácticas se deben entregar antes de la fecha de
+evaluación indicada al comienzo del enunciado, teniendo en
+cuenta las horas límite
+de entrega mencionadas en las <a href="normas.html#entrega">normas</a>
+de la asignatura.
+</p>
+
+<p>El fichero <span style="font-style: italic;">.zip</span>
+a entregar debe incluir:</p>
+<ul>
+  <li><span style="font-style: italic;">Código fuente, datos y librerías</span>.
+      <ul>
+          <li>Los ficheros de código fuente se situarán en un directorio "src".</li>
+          <li>Los datos en un directorio "res".</li>
+          <li>Los .jar de las librerías en un directorio "lib".</li>
+      </ul>
+La estructura de directorios será la necesaria
+para que, descomprimiendo el <span style="font-style: italic;">.zip</span>
+entregado y escribiendo "ant run" (es decir, ejecutando el "<span
+ style="font-style: italic;">build.xml</span>" includido en el <span
+ style="font-style: italic;">.zip</span>), la práctica se
+compile y ejecute correctamente.</li>
+
+  <li>Un <span style="font-style: italic;">leeme.txt</span> que
+describa los ficheros incluidos en el <span style="font-style: italic;">.zip</span>.</li>
+  <li>El <span style="font-style: italic;">build.xml</span> usado para
+compilar y ejecutar la práctica (generado por netbeans o creado
+manualmente).<br>
+  </li>
+  <li>Una <span style="font-style: italic;">memoria</span> en pdf<span
+ style="font-style: italic;"></span><span style="font-style: italic;"></span>
+y un directorio javadoc con la documentación generada para cada
+clase. <br>
+  </li>
+</ul>
+<p><span style="font-weight: bold;">NOTA:</span>
+Las entregas que no cumplan los requisitos enumerados en las normas
+recibirán una penalización de 0.5 puntos.</p>
+<span class="copyright">(C) 2009-2010 Escuela Politécnica
+Superior, UAM</span><br>
+<br>
+</body>
+</html>

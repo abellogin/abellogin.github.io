@@ -1,0 +1,88 @@
+Mostrando inventario de la tienda:
+-----------------------------------------------------------
+[ 0] Articulo: Cero (ref. 0), 10.0 euros + iva
+       Cantidad en stock: 12
+-----------------------------------------------------------
+[ 1] Articulo: Uno (ref. 1), 20.0 euros + iva
+       Cantidad en stock: 9
+-----------------------------------------------------------
+[ 2] Articulo: Dos (ref. 2), 15.0 euros + iva
+       Cantidad en stock: 10
+-----------------------------------------------------------
+[ 3] Articulo: Tres (ref. 3), 180.0 euros + iva
+       Cantidad en stock: 15
+-----------------------------------------------------------
+[ 4] Articulo: Cuatro (ref. 4), 105.0 euros + iva
+       Cantidad en stock: 4
+-----------------------------------------------------------
+[ 5] Articulo: Cinco (ref. 5), 99.0 euros + iva
+       Cantidad en stock: 1
+-----------------------------------------------------------
+Saldo actual de Pedro: 1000.0
+Vendiendo articulo Cero a cliente Pedro:
+Mostrando inventario de la tienda:
+-----------------------------------------------------------
+[ 0] Articulo: Cero (ref. 0), 10.0 euros + iva
+       Cantidad en stock: 11
+-----------------------------------------------------------
+[ 1] Articulo: Uno (ref. 1), 20.0 euros + iva
+       Cantidad en stock: 9
+-----------------------------------------------------------
+[ 2] Articulo: Dos (ref. 2), 15.0 euros + iva
+       Cantidad en stock: 10
+-----------------------------------------------------------
+[ 3] Articulo: Tres (ref. 3), 180.0 euros + iva
+       Cantidad en stock: 15
+-----------------------------------------------------------
+[ 4] Articulo: Cuatro (ref. 4), 105.0 euros + iva
+       Cantidad en stock: 4
+-----------------------------------------------------------
+[ 5] Articulo: Cinco (ref. 5), 99.0 euros + iva
+       Cantidad en stock: 1
+-----------------------------------------------------------
+Saldo actual de Pedro: 990.0
+Historial de compras de Pedro:
+-----------------------------------------------------------
+Cero (ref. 0), 10.0 euros + iva comprado en Tue Feb 15 14:07:02 CET 2011
+-----------------------------------------------------------
+Contenido del carrito de Pedro:
+-----------------------------------------------------------
+ -- Uno (ref. 1), 20.0 euros + iva
+ -- Tres (ref. 3), 180.0 euros + iva
+-----------------------------------------------------------
+Vendiendo articulo Uno a cliente Pedro:
+Vendiendo articulo Tres a cliente Pedro:
+Mostrando inventario de la tienda:
+-----------------------------------------------------------
+[ 0] Articulo: Cero (ref. 0), 10.0 euros + iva
+       Cantidad en stock: 11
+-----------------------------------------------------------
+[ 1] Articulo: Uno (ref. 1), 20.0 euros + iva
+       Cantidad en stock: 8
+-----------------------------------------------------------
+[ 2] Articulo: Dos (ref. 2), 15.0 euros + iva
+       Cantidad en stock: 10
+-----------------------------------------------------------
+[ 3] Articulo: Tres (ref. 3), 180.0 euros + iva
+       Cantidad en stock: 14
+-----------------------------------------------------------
+[ 4] Articulo: Cuatro (ref. 4), 105.0 euros + iva
+       Cantidad en stock: 4
+-----------------------------------------------------------
+[ 5] Articulo: Cinco (ref. 5), 99.0 euros + iva
+       Cantidad en stock: 1
+-----------------------------------------------------------
+Saldo actual de Pedro: 790.0
+Historial de compras de Pedro:
+-----------------------------------------------------------
+Cero (ref. 0), 10.0 euros + iva comprado en Tue Feb 15 14:07:02 CET 2011
+-----------------------------------------------------------
+Uno (ref. 1), 20.0 euros + iva comprado en Tue Feb 15 14:07:02 CET 2011
+-----------------------------------------------------------
+Tres (ref. 3), 180.0 euros + iva comprado en Tue Feb 15 14:07:02 CET 2011
+-----------------------------------------------------------
+  -- Error: Articulo no existe en la tienda.
+Vendiendo articulo ArticuloTrampa a cliente Pedro:
+  -- Error: Articulo no existe en la tienda.
+Vendiendo articulo Cero a cliente ClienteNoRegistrado:
+  -- Error: Cliente no esta registrado en la tienda.

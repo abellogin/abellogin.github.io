@@ -1,0 +1,624 @@
+<HTML>
+<BODY BGCOLOR="white">
+<PRE>
+<FONT color="green">001</FONT>    package es.uam.eps.irg.rs.trec.eval.rec;<a name="line.1"></a>
+<FONT color="green">002</FONT>    <a name="line.2"></a>
+<FONT color="green">003</FONT>    import es.uam.eps.irg.rs.trec.eval.TrecRecommenderEvaluator;<a name="line.3"></a>
+<FONT color="green">004</FONT>    import java.io.File;<a name="line.4"></a>
+<FONT color="green">005</FONT>    import java.io.FileNotFoundException;<a name="line.5"></a>
+<FONT color="green">006</FONT>    import java.io.FileOutputStream;<a name="line.6"></a>
+<FONT color="green">007</FONT>    import java.io.PrintStream;<a name="line.7"></a>
+<FONT color="green">008</FONT>    import java.util.ArrayList;<a name="line.8"></a>
+<FONT color="green">009</FONT>    import java.util.Collections;<a name="line.9"></a>
+<FONT color="green">010</FONT>    import java.util.HashMap;<a name="line.10"></a>
+<FONT color="green">011</FONT>    import java.util.List;<a name="line.11"></a>
+<FONT color="green">012</FONT>    import java.util.Map;<a name="line.12"></a>
+<FONT color="green">013</FONT>    import java.util.Map.Entry;<a name="line.13"></a>
+<FONT color="green">014</FONT>    import java.util.NoSuchElementException;<a name="line.14"></a>
+<FONT color="green">015</FONT>    import java.util.Set;<a name="line.15"></a>
+<FONT color="green">016</FONT>    import java.util.TimerTask;<a name="line.16"></a>
+<FONT color="green">017</FONT>    import java.util.TreeSet;<a name="line.17"></a>
+<FONT color="green">018</FONT>    import java.util.concurrent.ExecutorService;<a name="line.18"></a>
+<FONT color="green">019</FONT>    import java.util.concurrent.Executors;<a name="line.19"></a>
+<FONT color="green">020</FONT>    import java.util.concurrent.TimeUnit;<a name="line.20"></a>
+<FONT color="green">021</FONT>    import org.apache.mahout.cf.taste.common.NoSuchUserException;<a name="line.21"></a>
+<FONT color="green">022</FONT>    import org.apache.mahout.cf.taste.common.TasteException;<a name="line.22"></a>
+<FONT color="green">023</FONT>    import org.apache.mahout.cf.taste.recommender.Recommender;<a name="line.23"></a>
+<FONT color="green">024</FONT>    <a name="line.24"></a>
+<FONT color="green">025</FONT>    /**<a name="line.25"></a>
+<FONT color="green">026</FONT>     *<a name="line.26"></a>
+<FONT color="green">027</FONT>     * Abstract class which implements a general evaluation methodology,<a name="line.27"></a>
+<FONT color="green">028</FONT>     * by ranking the relevant and not-relevant items for each user.<a name="line.28"></a>
+<FONT color="green">029</FONT>     *<a name="line.29"></a>
+<FONT color="green">030</FONT>     * @author Alejandro<a name="line.30"></a>
+<FONT color="green">031</FONT>     */<a name="line.31"></a>
+<FONT color="green">032</FONT>    public abstract class AbstractTrecRecommenderEvaluator implements TrecRecommenderEvaluator {<a name="line.32"></a>
+<FONT color="green">033</FONT>    <a name="line.33"></a>
+<FONT color="green">034</FONT>        protected Map&lt;Long, Map&lt;Long, Float&gt;&gt; train;<a name="line.34"></a>
+<FONT color="green">035</FONT>        protected Map&lt;Long, Map&lt;Long, Float&gt;&gt; test;<a name="line.35"></a>
+<FONT color="green">036</FONT>        protected int userThreads;<a name="line.36"></a>
+<FONT color="green">037</FONT>        protected int recThreads;<a name="line.37"></a>
+<FONT color="green">038</FONT>        protected Recommender wrappingRec;<a name="line.38"></a>
+<FONT color="green">039</FONT>        protected int maxRankSize;<a name="line.39"></a>
+<FONT color="green">040</FONT>        protected boolean overwriteOutputFile;<a name="line.40"></a>
+<FONT color="green">041</FONT>        protected String qrelFile;<a name="line.41"></a>
+<FONT color="green">042</FONT>        protected String relFile;<a name="line.42"></a>
+<FONT color="green">043</FONT>        protected List&lt;Recommender&gt; recommenders;<a name="line.43"></a>
+<FONT color="green">044</FONT>        protected List&lt;String&gt; recommenderNames;<a name="line.44"></a>
+<FONT color="green">045</FONT>    <a name="line.45"></a>
+<FONT color="green">046</FONT>        public AbstractTrecRecommenderEvaluator() {<a name="line.46"></a>
+<FONT color="green">047</FONT>            this.recommenderNames = new ArrayList&lt;String&gt;();<a name="line.47"></a>
+<FONT color="green">048</FONT>            this.recommenders = new ArrayList&lt;Recommender&gt;();<a name="line.48"></a>
+<FONT color="green">049</FONT>    <a name="line.49"></a>
+<FONT color="green">050</FONT>            this.userThreads = 0;<a name="line.50"></a>
+<FONT color="green">051</FONT>            this.recThreads = 0;<a name="line.51"></a>
+<FONT color="green">052</FONT>            this.wrappingRec = null;<a name="line.52"></a>
+<FONT color="green">053</FONT>            this.maxRankSize = 1000;<a name="line.53"></a>
+<FONT color="green">054</FONT>            this.overwriteOutputFile = false;<a name="line.54"></a>
+<FONT color="green">055</FONT>            this.qrelFile = null;<a name="line.55"></a>
+<FONT color="green">056</FONT>            this.relFile = null;<a name="line.56"></a>
+<FONT color="green">057</FONT>        }<a name="line.57"></a>
+<FONT color="green">058</FONT>    <a name="line.58"></a>
+<FONT color="green">059</FONT>        /**<a name="line.59"></a>
+<FONT color="green">060</FONT>         * {@inheritDoc}<a name="line.60"></a>
+<FONT color="green">061</FONT>         */<a name="line.61"></a>
+<FONT color="green">062</FONT>        public void setTraining(Map&lt;Long, Map&lt;Long, Float&gt;&gt; train) {<a name="line.62"></a>
+<FONT color="green">063</FONT>            this.train = train;<a name="line.63"></a>
+<FONT color="green">064</FONT>        }<a name="line.64"></a>
+<FONT color="green">065</FONT>    <a name="line.65"></a>
+<FONT color="green">066</FONT>        /**<a name="line.66"></a>
+<FONT color="green">067</FONT>         * {@inheritDoc}<a name="line.67"></a>
+<FONT color="green">068</FONT>         */<a name="line.68"></a>
+<FONT color="green">069</FONT>        public void setTesting(Map&lt;Long, Map&lt;Long, Float&gt;&gt; test) {<a name="line.69"></a>
+<FONT color="green">070</FONT>            this.test = test;<a name="line.70"></a>
+<FONT color="green">071</FONT>        }<a name="line.71"></a>
+<FONT color="green">072</FONT>    <a name="line.72"></a>
+<FONT color="green">073</FONT>        /**<a name="line.73"></a>
+<FONT color="green">074</FONT>         * {@inheritDoc}<a name="line.74"></a>
+<FONT color="green">075</FONT>         *<a name="line.75"></a>
+<FONT color="green">076</FONT>         * No threads are used by default, i.e., nThreads=0<a name="line.76"></a>
+<FONT color="green">077</FONT>         *<a name="line.77"></a>
+<FONT color="green">078</FONT>         * @param nThreads {@inheritDoc}<a name="line.78"></a>
+<FONT color="green">079</FONT>         */<a name="line.79"></a>
+<FONT color="green">080</FONT>        public void setUserThreads(int nThreads) {<a name="line.80"></a>
+<FONT color="green">081</FONT>            this.userThreads = nThreads;<a name="line.81"></a>
+<FONT color="green">082</FONT>        }<a name="line.82"></a>
+<FONT color="green">083</FONT>    <a name="line.83"></a>
+<FONT color="green">084</FONT>        /**<a name="line.84"></a>
+<FONT color="green">085</FONT>         * {@inheritDoc}<a name="line.85"></a>
+<FONT color="green">086</FONT>         *<a name="line.86"></a>
+<FONT color="green">087</FONT>         * No threads are used by default, i.e., nThreads=0<a name="line.87"></a>
+<FONT color="green">088</FONT>         *<a name="line.88"></a>
+<FONT color="green">089</FONT>         * @param nThreads {@inheritDoc}<a name="line.89"></a>
+<FONT color="green">090</FONT>         */<a name="line.90"></a>
+<FONT color="green">091</FONT>        public void setRecommenderThreads(int nThreads) {<a name="line.91"></a>
+<FONT color="green">092</FONT>            this.recThreads = nThreads;<a name="line.92"></a>
+<FONT color="green">093</FONT>        }<a name="line.93"></a>
+<FONT color="green">094</FONT>    <a name="line.94"></a>
+<FONT color="green">095</FONT>        /**<a name="line.95"></a>
+<FONT color="green">096</FONT>         * {@inheritDoc}<a name="line.96"></a>
+<FONT color="green">097</FONT>         *<a name="line.97"></a>
+<FONT color="green">098</FONT>         * No wrapping recommender is used by default<a name="line.98"></a>
+<FONT color="green">099</FONT>         *<a name="line.99"></a>
+<FONT color="green">100</FONT>         * @param r {@inheritDoc}<a name="line.100"></a>
+<FONT color="green">101</FONT>         */<a name="line.101"></a>
+<FONT color="green">102</FONT>        public void setWrappingRecommender(Recommender r) {<a name="line.102"></a>
+<FONT color="green">103</FONT>            this.wrappingRec = r;<a name="line.103"></a>
+<FONT color="green">104</FONT>        }<a name="line.104"></a>
+<FONT color="green">105</FONT>    <a name="line.105"></a>
+<FONT color="green">106</FONT>        /**<a name="line.106"></a>
+<FONT color="green">107</FONT>         * {@inheritDoc}<a name="line.107"></a>
+<FONT color="green">108</FONT>         *<a name="line.108"></a>
+<FONT color="green">109</FONT>         * A value of 1000 is used by default<a name="line.109"></a>
+<FONT color="green">110</FONT>         *<a name="line.110"></a>
+<FONT color="green">111</FONT>         * @param maxSize {@inheritDoc}<a name="line.111"></a>
+<FONT color="green">112</FONT>         */<a name="line.112"></a>
+<FONT color="green">113</FONT>        public void setMaxRankingSize(int maxSize) {<a name="line.113"></a>
+<FONT color="green">114</FONT>            this.maxRankSize = maxSize;<a name="line.114"></a>
+<FONT color="green">115</FONT>        }<a name="line.115"></a>
+<FONT color="green">116</FONT>    <a name="line.116"></a>
+<FONT color="green">117</FONT>        /**<a name="line.117"></a>
+<FONT color="green">118</FONT>         *<a name="line.118"></a>
+<FONT color="green">119</FONT>         * {@inheritDoc}<a name="line.119"></a>
+<FONT color="green">120</FONT>         *<a name="line.120"></a>
+<FONT color="green">121</FONT>         * @param overwrite by default, false<a name="line.121"></a>
+<FONT color="green">122</FONT>         */<a name="line.122"></a>
+<FONT color="green">123</FONT>        public void setOverwriteEvalFile(boolean overwrite) {<a name="line.123"></a>
+<FONT color="green">124</FONT>            this.overwriteOutputFile = overwrite;<a name="line.124"></a>
+<FONT color="green">125</FONT>        }<a name="line.125"></a>
+<FONT color="green">126</FONT>    <a name="line.126"></a>
+<FONT color="green">127</FONT>        /**<a name="line.127"></a>
+<FONT color="green">128</FONT>         * {@inheritDoc}<a name="line.128"></a>
+<FONT color="green">129</FONT>         *<a name="line.129"></a>
+<FONT color="green">130</FONT>         * Null by default, i.e., qrel file will not be generated<a name="line.130"></a>
+<FONT color="green">131</FONT>         *<a name="line.131"></a>
+<FONT color="green">132</FONT>         * @param qrelFile<a name="line.132"></a>
+<FONT color="green">133</FONT>         */<a name="line.133"></a>
+<FONT color="green">134</FONT>        public void setQrelFile(String qrelFile) {<a name="line.134"></a>
+<FONT color="green">135</FONT>            this.qrelFile = qrelFile;<a name="line.135"></a>
+<FONT color="green">136</FONT>        }<a name="line.136"></a>
+<FONT color="green">137</FONT>    <a name="line.137"></a>
+<FONT color="green">138</FONT>        /**<a name="line.138"></a>
+<FONT color="green">139</FONT>         * {@inheritDoc}<a name="line.139"></a>
+<FONT color="green">140</FONT>         */<a name="line.140"></a>
+<FONT color="green">141</FONT>        public void setRelevantItemsFile(String relFile) {<a name="line.141"></a>
+<FONT color="green">142</FONT>            this.relFile = relFile;<a name="line.142"></a>
+<FONT color="green">143</FONT>        }<a name="line.143"></a>
+<FONT color="green">144</FONT>    <a name="line.144"></a>
+<FONT color="green">145</FONT>        public String getRelevantItemsFileName() {<a name="line.145"></a>
+<FONT color="green">146</FONT>            return getOutputFolder() + "relItemsFile_" + this + ".txt";<a name="line.146"></a>
+<FONT color="green">147</FONT>        }<a name="line.147"></a>
+<FONT color="green">148</FONT>    <a name="line.148"></a>
+<FONT color="green">149</FONT>        /**<a name="line.149"></a>
+<FONT color="green">150</FONT>         * {@inheritDoc}<a name="line.150"></a>
+<FONT color="green">151</FONT>         */<a name="line.151"></a>
+<FONT color="green">152</FONT>        public void addRecommender(Recommender r, String recName, String outFolder) {<a name="line.152"></a>
+<FONT color="green">153</FONT>            recommenders.add(r);<a name="line.153"></a>
+<FONT color="green">154</FONT>            recommenderNames.add(getFileName(outFolder, recName + "_" + this));<a name="line.154"></a>
+<FONT color="green">155</FONT>        }<a name="line.155"></a>
+<FONT color="green">156</FONT>    <a name="line.156"></a>
+<FONT color="green">157</FONT>        /**<a name="line.157"></a>
+<FONT color="green">158</FONT>         * {@inheritDoc}<a name="line.158"></a>
+<FONT color="green">159</FONT>         */<a name="line.159"></a>
+<FONT color="green">160</FONT>        public void evaluate() {<a name="line.160"></a>
+<FONT color="green">161</FONT>            final List&lt;PrintStream&gt; recStreams = new ArrayList&lt;PrintStream&gt;();<a name="line.161"></a>
+<FONT color="green">162</FONT>            for (int i = 0; i &lt; recommenders.size(); i++) {<a name="line.162"></a>
+<FONT color="green">163</FONT>                String rec = recommenderNames.get(i);<a name="line.163"></a>
+<FONT color="green">164</FONT>                if ((!new File(rec).exists()) || (new File(rec).exists() &amp;&amp; overwriteOutputFile)) {<a name="line.164"></a>
+<FONT color="green">165</FONT>                    try {<a name="line.165"></a>
+<FONT color="green">166</FONT>                        recStreams.add(new PrintStream(new File(rec)));<a name="line.166"></a>
+<FONT color="green">167</FONT>                    } catch (Exception e) {<a name="line.167"></a>
+<FONT color="green">168</FONT>                        e.printStackTrace();<a name="line.168"></a>
+<FONT color="green">169</FONT>                        recStreams.add(null);<a name="line.169"></a>
+<FONT color="green">170</FONT>                    }<a name="line.170"></a>
+<FONT color="green">171</FONT>                } else {<a name="line.171"></a>
+<FONT color="green">172</FONT>                    System.err.println("Ignoring " + rec);<a name="line.172"></a>
+<FONT color="green">173</FONT>                    recStreams.add(null);<a name="line.173"></a>
+<FONT color="green">174</FONT>                }<a name="line.174"></a>
+<FONT color="green">175</FONT>            }<a name="line.175"></a>
+<FONT color="green">176</FONT>            // check if qrels file exists<a name="line.176"></a>
+<FONT color="green">177</FONT>            if (qrelFile != null) {<a name="line.177"></a>
+<FONT color="green">178</FONT>                if (new File(qrelFile).exists()) {<a name="line.178"></a>
+<FONT color="green">179</FONT>                    System.err.println("Qrels file " + qrelFile + " will be rewritten");<a name="line.179"></a>
+<FONT color="green">180</FONT>                    // and reset it<a name="line.180"></a>
+<FONT color="green">181</FONT>                    try {<a name="line.181"></a>
+<FONT color="green">182</FONT>                        new PrintStream(new File(qrelFile)).close();<a name="line.182"></a>
+<FONT color="green">183</FONT>                    } catch (Exception e) {<a name="line.183"></a>
+<FONT color="green">184</FONT>                        e.printStackTrace();<a name="line.184"></a>
+<FONT color="green">185</FONT>                    }<a name="line.185"></a>
+<FONT color="green">186</FONT>                }<a name="line.186"></a>
+<FONT color="green">187</FONT>            }<a name="line.187"></a>
+<FONT color="green">188</FONT>            // check if relevant file exists<a name="line.188"></a>
+<FONT color="green">189</FONT>            PrintStream psRel = null;<a name="line.189"></a>
+<FONT color="green">190</FONT>            if (relFile == null) {<a name="line.190"></a>
+<FONT color="green">191</FONT>                relFile = getRelevantItemsFileName();<a name="line.191"></a>
+<FONT color="green">192</FONT>            }<a name="line.192"></a>
+<FONT color="green">193</FONT>            if (new File(relFile).exists()) {<a name="line.193"></a>
+<FONT color="green">194</FONT>                System.err.println("Relevant file " + relFile + " will be rewritten");<a name="line.194"></a>
+<FONT color="green">195</FONT>            }<a name="line.195"></a>
+<FONT color="green">196</FONT>            try {<a name="line.196"></a>
+<FONT color="green">197</FONT>                psRel = new PrintStream(new File(relFile));<a name="line.197"></a>
+<FONT color="green">198</FONT>            } catch (Exception e) {<a name="line.198"></a>
+<FONT color="green">199</FONT>                e.printStackTrace();<a name="line.199"></a>
+<FONT color="green">200</FONT>            }<a name="line.200"></a>
+<FONT color="green">201</FONT>    <a name="line.201"></a>
+<FONT color="green">202</FONT>            ExecutorService userPool = null;<a name="line.202"></a>
+<FONT color="green">203</FONT>            if (userThreads &gt; 1) {<a name="line.203"></a>
+<FONT color="green">204</FONT>                userPool = Executors.newFixedThreadPool(userThreads);<a name="line.204"></a>
+<FONT color="green">205</FONT>            }<a name="line.205"></a>
+<FONT color="green">206</FONT>            for (long userID : test.keySet()) {<a name="line.206"></a>
+<FONT color="green">207</FONT>                // for each user<a name="line.207"></a>
+<FONT color="green">208</FONT>                // get a subset of her test set, i.e., those rated high<a name="line.208"></a>
+<FONT color="green">209</FONT>                // (depending on method 'isValidItemForTestSet')<a name="line.209"></a>
+<FONT color="green">210</FONT>                final Map&lt;Long, Float&gt; relMap = getRelevantMap(userID);<a name="line.210"></a>
+<FONT color="green">211</FONT>                if (relMap == null) {<a name="line.211"></a>
+<FONT color="green">212</FONT>                    continue;<a name="line.212"></a>
+<FONT color="green">213</FONT>                }<a name="line.213"></a>
+<FONT color="green">214</FONT>                final Set&lt;Long&gt; relSet = getRelevantSet(userID);<a name="line.214"></a>
+<FONT color="green">215</FONT>                if ((relSet == null) || (relSet.isEmpty())) {<a name="line.215"></a>
+<FONT color="green">216</FONT>                    continue;<a name="line.216"></a>
+<FONT color="green">217</FONT>                }<a name="line.217"></a>
+<FONT color="green">218</FONT>                // select N unrated items by this user<a name="line.218"></a>
+<FONT color="green">219</FONT>                final Map&lt;Long, Set&lt;Long&gt;&gt; notRelMap = getNotRelevantMap(userID, relSet);<a name="line.219"></a>
+<FONT color="green">220</FONT>                if ((notRelMap == null) || (notRelMap.isEmpty())) {<a name="line.220"></a>
+<FONT color="green">221</FONT>                    continue;<a name="line.221"></a>
+<FONT color="green">222</FONT>                }<a name="line.222"></a>
+<FONT color="green">223</FONT>                // write qrels<a name="line.223"></a>
+<FONT color="green">224</FONT>                if (qrelFile != null) {<a name="line.224"></a>
+<FONT color="green">225</FONT>                    try {<a name="line.225"></a>
+<FONT color="green">226</FONT>                        writeQrelFile(userID, relMap, qrelFile);<a name="line.226"></a>
+<FONT color="green">227</FONT>                    } catch (Exception e) {<a name="line.227"></a>
+<FONT color="green">228</FONT>                        e.printStackTrace();<a name="line.228"></a>
+<FONT color="green">229</FONT>                    }<a name="line.229"></a>
+<FONT color="green">230</FONT>                }<a name="line.230"></a>
+<FONT color="green">231</FONT>                // write relevant file<a name="line.231"></a>
+<FONT color="green">232</FONT>                if (psRel != null) {<a name="line.232"></a>
+<FONT color="green">233</FONT>                    try {<a name="line.233"></a>
+<FONT color="green">234</FONT>                        writeRelevantItems(userID, relMap, psRel);<a name="line.234"></a>
+<FONT color="green">235</FONT>                    } catch (Exception e) {<a name="line.235"></a>
+<FONT color="green">236</FONT>                        e.printStackTrace();<a name="line.236"></a>
+<FONT color="green">237</FONT>                    }<a name="line.237"></a>
+<FONT color="green">238</FONT>                }<a name="line.238"></a>
+<FONT color="green">239</FONT>                final UserEvaluator ue = new UserEvaluator(userID, relSet, notRelMap, recommenders, recommenderNames, recStreams, recThreads);<a name="line.239"></a>
+<FONT color="green">240</FONT>                if (userPool == null) {<a name="line.240"></a>
+<FONT color="green">241</FONT>                    ue.run();<a name="line.241"></a>
+<FONT color="green">242</FONT>                } else {<a name="line.242"></a>
+<FONT color="green">243</FONT>                    userPool.execute(ue);<a name="line.243"></a>
+<FONT color="green">244</FONT>                }<a name="line.244"></a>
+<FONT color="green">245</FONT>            }<a name="line.245"></a>
+<FONT color="green">246</FONT>            if (userPool != null) {<a name="line.246"></a>
+<FONT color="green">247</FONT>                userPool.shutdown();<a name="line.247"></a>
+<FONT color="green">248</FONT>                try {<a name="line.248"></a>
+<FONT color="green">249</FONT>                    while (!userPool.awaitTermination(10 * 24 * 60 * 60, TimeUnit.SECONDS)) {<a name="line.249"></a>
+<FONT color="green">250</FONT>                        System.err.println("Try again!");<a name="line.250"></a>
+<FONT color="green">251</FONT>                    }<a name="line.251"></a>
+<FONT color="green">252</FONT>                } catch (InterruptedException e) {<a name="line.252"></a>
+<FONT color="green">253</FONT>                    e.printStackTrace();<a name="line.253"></a>
+<FONT color="green">254</FONT>                }<a name="line.254"></a>
+<FONT color="green">255</FONT>            }<a name="line.255"></a>
+<FONT color="green">256</FONT>            // close files<a name="line.256"></a>
+<FONT color="green">257</FONT>            for (int i = 0; i &lt; recommenders.size(); i++) {<a name="line.257"></a>
+<FONT color="green">258</FONT>                final PrintStream writer = recStreams.get(i);<a name="line.258"></a>
+<FONT color="green">259</FONT>                if (writer == null) {<a name="line.259"></a>
+<FONT color="green">260</FONT>                    continue;<a name="line.260"></a>
+<FONT color="green">261</FONT>                }<a name="line.261"></a>
+<FONT color="green">262</FONT>                writer.close();<a name="line.262"></a>
+<FONT color="green">263</FONT>            }<a name="line.263"></a>
+<FONT color="green">264</FONT>            if (psRel != null) {<a name="line.264"></a>
+<FONT color="green">265</FONT>                psRel.close();<a name="line.265"></a>
+<FONT color="green">266</FONT>            }<a name="line.266"></a>
+<FONT color="green">267</FONT>        }<a name="line.267"></a>
+<FONT color="green">268</FONT>    <a name="line.268"></a>
+<FONT color="green">269</FONT>        private synchronized void estimatePreference(long userID, long itemID, final Recommender recommender, final Map&lt;Long, Float&gt; itemPreferenceMap) {<a name="line.269"></a>
+<FONT color="green">270</FONT>            float pref = Float.NaN;<a name="line.270"></a>
+<FONT color="green">271</FONT>            try {<a name="line.271"></a>
+<FONT color="green">272</FONT>                pref = recommender.estimatePreference(userID, itemID);<a name="line.272"></a>
+<FONT color="green">273</FONT>            } catch (NoSuchElementException nsee) {<a name="line.273"></a>
+<FONT color="green">274</FONT>            } catch (NoSuchUserException nsue) {<a name="line.274"></a>
+<FONT color="green">275</FONT>            } catch (TasteException te) {<a name="line.275"></a>
+<FONT color="green">276</FONT>            }<a name="line.276"></a>
+<FONT color="green">277</FONT>            if (Double.isNaN(pref)) {<a name="line.277"></a>
+<FONT color="green">278</FONT>                if (wrappingRec != null) {<a name="line.278"></a>
+<FONT color="green">279</FONT>                    try {<a name="line.279"></a>
+<FONT color="green">280</FONT>                        pref = wrappingRec.estimatePreference(userID, itemID);<a name="line.280"></a>
+<FONT color="green">281</FONT>                    } catch (NoSuchElementException nsee) {<a name="line.281"></a>
+<FONT color="green">282</FONT>                    } catch (NoSuchUserException nsue) {<a name="line.282"></a>
+<FONT color="green">283</FONT>                    } catch (TasteException te) {<a name="line.283"></a>
+<FONT color="green">284</FONT>                    }<a name="line.284"></a>
+<FONT color="green">285</FONT>                }<a name="line.285"></a>
+<FONT color="green">286</FONT>            }<a name="line.286"></a>
+<FONT color="green">287</FONT>            // NaN is then sorted higher than any other value, and thus it should be removed<a name="line.287"></a>
+<FONT color="green">288</FONT>            if (!Double.isNaN(pref)) {<a name="line.288"></a>
+<FONT color="green">289</FONT>                itemPreferenceMap.put(itemID, pref);<a name="line.289"></a>
+<FONT color="green">290</FONT>            }<a name="line.290"></a>
+<FONT color="green">291</FONT>        }<a name="line.291"></a>
+<FONT color="green">292</FONT>    <a name="line.292"></a>
+<FONT color="green">293</FONT>        /**<a name="line.293"></a>
+<FONT color="green">294</FONT>         *<a name="line.294"></a>
+<FONT color="green">295</FONT>         * Returns the set of relevant items for a particular user.<a name="line.295"></a>
+<FONT color="green">296</FONT>         * By default it uses the output of #getRelevantMap(long),<a name="line.296"></a>
+<FONT color="green">297</FONT>         * by returning the keySet of that map.<a name="line.297"></a>
+<FONT color="green">298</FONT>         *<a name="line.298"></a>
+<FONT color="green">299</FONT>         * @param userID user id<a name="line.299"></a>
+<FONT color="green">300</FONT>         * @return set of relevant items for a user<a name="line.300"></a>
+<FONT color="green">301</FONT>         */<a name="line.301"></a>
+<FONT color="green">302</FONT>        protected Set&lt;Long&gt; getRelevantSet(long userID) {<a name="line.302"></a>
+<FONT color="green">303</FONT>            return getRelevantMap(userID).keySet();<a name="line.303"></a>
+<FONT color="green">304</FONT>        }<a name="line.304"></a>
+<FONT color="green">305</FONT>    <a name="line.305"></a>
+<FONT color="green">306</FONT>        /**<a name="line.306"></a>
+<FONT color="green">307</FONT>         *<a name="line.307"></a>
+<FONT color="green">308</FONT>         * Returns the map of relevant items for a particular user.<a name="line.308"></a>
+<FONT color="green">309</FONT>         * The map contains items in the keys, and their corresponding relevance<a name="line.309"></a>
+<FONT color="green">310</FONT>         * values in the values.<a name="line.310"></a>
+<FONT color="green">311</FONT>         *<a name="line.311"></a>
+<FONT color="green">312</FONT>         * @param userID user id<a name="line.312"></a>
+<FONT color="green">313</FONT>         * @return the map of relevant items for a user, if userID is not in the test set, an empty map is returned<a name="line.313"></a>
+<FONT color="green">314</FONT>         */<a name="line.314"></a>
+<FONT color="green">315</FONT>        protected Map&lt;Long, Float&gt; getRelevantMap(long userID) {<a name="line.315"></a>
+<FONT color="green">316</FONT>            if (test.containsKey(userID)) {<a name="line.316"></a>
+<FONT color="green">317</FONT>                return test.get(userID);<a name="line.317"></a>
+<FONT color="green">318</FONT>            } else {<a name="line.318"></a>
+<FONT color="green">319</FONT>                return new HashMap&lt;Long, Float&gt;();<a name="line.319"></a>
+<FONT color="green">320</FONT>            }<a name="line.320"></a>
+<FONT color="green">321</FONT>        }<a name="line.321"></a>
+<FONT color="green">322</FONT>    <a name="line.322"></a>
+<FONT color="green">323</FONT>        /**<a name="line.323"></a>
+<FONT color="green">324</FONT>         * Returns the set of not relevant items for a particular user.<a name="line.324"></a>
+<FONT color="green">325</FONT>         * This method depends on each evaluation methodology.<a name="line.325"></a>
+<FONT color="green">326</FONT>         *<a name="line.326"></a>
+<FONT color="green">327</FONT>         * @param userID user id<a name="line.327"></a>
+<FONT color="green">328</FONT>         * @return set of not relevant items for a user<a name="line.328"></a>
+<FONT color="green">329</FONT>         */<a name="line.329"></a>
+<FONT color="green">330</FONT>        protected abstract Set&lt;Long&gt; getNotRelevantSet(long userID);<a name="line.330"></a>
+<FONT color="green">331</FONT>    <a name="line.331"></a>
+<FONT color="green">332</FONT>        /**<a name="line.332"></a>
+<FONT color="green">333</FONT>         * Returns the set of not relevant items for a particular user and a particular item.<a name="line.333"></a>
+<FONT color="green">334</FONT>         * This method depends on each evaluation methodology.<a name="line.334"></a>
+<FONT color="green">335</FONT>         * By default, it returns the same set of items for every relevant item for a user.<a name="line.335"></a>
+<FONT color="green">336</FONT>         *<a name="line.336"></a>
+<FONT color="green">337</FONT>         * @param userID user id<a name="line.337"></a>
+<FONT color="green">338</FONT>         * @param items set of relevant items<a name="line.338"></a>
+<FONT color="green">339</FONT>         * @return set of not relevant items for a user<a name="line.339"></a>
+<FONT color="green">340</FONT>         */<a name="line.340"></a>
+<FONT color="green">341</FONT>        protected Map&lt;Long, Set&lt;Long&gt;&gt; getNotRelevantMap(long userID, Set&lt;Long&gt; items) {<a name="line.341"></a>
+<FONT color="green">342</FONT>            Map&lt;Long, Set&lt;Long&gt;&gt; map = new HashMap&lt;Long, Set&lt;Long&gt;&gt;();<a name="line.342"></a>
+<FONT color="green">343</FONT>            Set&lt;Long&gt; notRelSet = getNotRelevantSet(userID);<a name="line.343"></a>
+<FONT color="green">344</FONT>            for (long i : items) {<a name="line.344"></a>
+<FONT color="green">345</FONT>                map.put(i, notRelSet);<a name="line.345"></a>
+<FONT color="green">346</FONT>            }<a name="line.346"></a>
+<FONT color="green">347</FONT>            return map;<a name="line.347"></a>
+<FONT color="green">348</FONT>        }<a name="line.348"></a>
+<FONT color="green">349</FONT>    <a name="line.349"></a>
+<FONT color="green">350</FONT>        /**<a name="line.350"></a>
+<FONT color="green">351</FONT>         *<a name="line.351"></a>
+<FONT color="green">352</FONT>         * A generic implementation for generating a qrel file.<a name="line.352"></a>
+<FONT color="green">353</FONT>         * For each relevant item (#getRelevantMap(long)) a line in the file<a name="line.353"></a>
+<FONT color="green">354</FONT>         * is included with the following pattern:<a name="line.354"></a>
+<FONT color="green">355</FONT>         * userID \t 0 \t itemID \t relevanceValue<a name="line.355"></a>
+<FONT color="green">356</FONT>         *<a name="line.356"></a>
+<FONT color="green">357</FONT>         * @param userID user id<a name="line.357"></a>
+<FONT color="green">358</FONT>         * @param relMap map of relevant items for a user<a name="line.358"></a>
+<FONT color="green">359</FONT>         * @param qrelFile name of the file<a name="line.359"></a>
+<FONT color="green">360</FONT>         * @throws java.io.FileNotFoundException<a name="line.360"></a>
+<FONT color="green">361</FONT>         */<a name="line.361"></a>
+<FONT color="green">362</FONT>        protected void writeQrelFile(long userID, Map&lt;Long, Float&gt; relMap, String qrelFile) throws FileNotFoundException {<a name="line.362"></a>
+<FONT color="green">363</FONT>            PrintStream writerQrels = new PrintStream(new FileOutputStream(qrelFile, true));<a name="line.363"></a>
+<FONT color="green">364</FONT>            for (Map.Entry&lt;Long, Float&gt; e : relMap.entrySet()) {<a name="line.364"></a>
+<FONT color="green">365</FONT>                long itemID = e.getKey();<a name="line.365"></a>
+<FONT color="green">366</FONT>                int rel = e.getValue().intValue();<a name="line.366"></a>
+<FONT color="green">367</FONT>                writerQrels.println(userID + "\t0\t" + itemID + "\t" + rel);<a name="line.367"></a>
+<FONT color="green">368</FONT>            }<a name="line.368"></a>
+<FONT color="green">369</FONT>            writerQrels.close();<a name="line.369"></a>
+<FONT color="green">370</FONT>        }<a name="line.370"></a>
+<FONT color="green">371</FONT>    <a name="line.371"></a>
+<FONT color="green">372</FONT>        /**<a name="line.372"></a>
+<FONT color="green">373</FONT>         *<a name="line.373"></a>
+<FONT color="green">374</FONT>         * For each relevant item (#getRelevantMap(long)) a line in the file<a name="line.374"></a>
+<FONT color="green">375</FONT>         * is included with the following pattern:<a name="line.375"></a>
+<FONT color="green">376</FONT>         * userID \t itemID \t relevanceValue<a name="line.376"></a>
+<FONT color="green">377</FONT>         *<a name="line.377"></a>
+<FONT color="green">378</FONT>         * @param userID user id<a name="line.378"></a>
+<FONT color="green">379</FONT>         * @param relMap map of relevant items for a user<a name="line.379"></a>
+<FONT color="green">380</FONT>         * @param ps stream of the file<a name="line.380"></a>
+<FONT color="green">381</FONT>         * @throws java.io.FileNotFoundException<a name="line.381"></a>
+<FONT color="green">382</FONT>         */<a name="line.382"></a>
+<FONT color="green">383</FONT>        protected void writeRelevantItems(long userID, Map&lt;Long, Float&gt; relMap, PrintStream ps) throws FileNotFoundException {<a name="line.383"></a>
+<FONT color="green">384</FONT>            for (Map.Entry&lt;Long, Float&gt; e : relMap.entrySet()) {<a name="line.384"></a>
+<FONT color="green">385</FONT>                long itemID = e.getKey();<a name="line.385"></a>
+<FONT color="green">386</FONT>                int rel = e.getValue().intValue();<a name="line.386"></a>
+<FONT color="green">387</FONT>                ps.println(userID + "\t" + itemID + "\t" + rel);<a name="line.387"></a>
+<FONT color="green">388</FONT>            }<a name="line.388"></a>
+<FONT color="green">389</FONT>        }<a name="line.389"></a>
+<FONT color="green">390</FONT>    <a name="line.390"></a>
+<FONT color="green">391</FONT>        protected String getOutputFolder() {<a name="line.391"></a>
+<FONT color="green">392</FONT>            String f = null;<a name="line.392"></a>
+<FONT color="green">393</FONT>            for (String r : recommenderNames) {<a name="line.393"></a>
+<FONT color="green">394</FONT>                File ff = new File(r);<a name="line.394"></a>
+<FONT color="green">395</FONT>                f = ff.getParent() + "/";<a name="line.395"></a>
+<FONT color="green">396</FONT>                break;<a name="line.396"></a>
+<FONT color="green">397</FONT>            }<a name="line.397"></a>
+<FONT color="green">398</FONT>            return f;<a name="line.398"></a>
+<FONT color="green">399</FONT>        }<a name="line.399"></a>
+<FONT color="green">400</FONT>    <a name="line.400"></a>
+<FONT color="green">401</FONT>        /**<a name="line.401"></a>
+<FONT color="green">402</FONT>         *<a name="line.402"></a>
+<FONT color="green">403</FONT>         * A generic implementation for generating a ranking given a user and<a name="line.403"></a>
+<FONT color="green">404</FONT>         * her list of preferences.<a name="line.404"></a>
+<FONT color="green">405</FONT>         * For each preference included in userItemPreferenceMap (previously filled<a name="line.405"></a>
+<FONT color="green">406</FONT>         * with values generated by some recommender) a ranking is generated.<a name="line.406"></a>
+<FONT color="green">407</FONT>         * This ranking may contains less items than those in the union of relSet<a name="line.407"></a>
+<FONT color="green">408</FONT>         * and notRelSet, if additional constraints are included (#setMaxRankingSize(int)).<a name="line.408"></a>
+<FONT color="green">409</FONT>         * For each preference, a line is included in the file:<a name="line.409"></a>
+<FONT color="green">410</FONT>         * userID \t Q0 \t itemID \t position \t preferenceValue \t r<a name="line.410"></a>
+<FONT color="green">411</FONT>         *<a name="line.411"></a>
+<FONT color="green">412</FONT>         * @param userID user id<a name="line.412"></a>
+<FONT color="green">413</FONT>         * @param relSet set of relevant items for a user<a name="line.413"></a>
+<FONT color="green">414</FONT>         * @param notRelMap map of not-relevant items for a user<a name="line.414"></a>
+<FONT color="green">415</FONT>         * @param userItemPreferenceMap map containing the preferences inferred by some recommender for a user<a name="line.415"></a>
+<FONT color="green">416</FONT>         * @param recName name of the recommender which generated set of relevant items for a user<a name="line.416"></a>
+<FONT color="green">417</FONT>         * @param writer stream where the ranking will be written<a name="line.417"></a>
+<FONT color="green">418</FONT>         */<a name="line.418"></a>
+<FONT color="green">419</FONT>        protected synchronized void writeRanking(long userID, final Set&lt;Long&gt; relSet, final Map&lt;Long, Set&lt;Long&gt;&gt; notRelMap, final Map&lt;Long, Float&gt; userItemPreferenceMap, String recName, final PrintStream writer) {<a name="line.419"></a>
+<FONT color="green">420</FONT>            final Map&lt;Float, Set&lt;Long&gt;&gt; preferenceMap = new HashMap&lt;Float, Set&lt;Long&gt;&gt;();<a name="line.420"></a>
+<FONT color="green">421</FONT>            for (Entry&lt;Long, Float&gt; e : userItemPreferenceMap.entrySet()) {<a name="line.421"></a>
+<FONT color="green">422</FONT>                addItemToRanking(e.getKey(), e.getValue(), preferenceMap);<a name="line.422"></a>
+<FONT color="green">423</FONT>            }<a name="line.423"></a>
+<FONT color="green">424</FONT>            // Sort items by estimated preference<a name="line.424"></a>
+<FONT color="green">425</FONT>            final List&lt;Float&gt; sortedScores = new ArrayList&lt;Float&gt;(preferenceMap.keySet());<a name="line.425"></a>
+<FONT color="green">426</FONT>            Collections.sort(sortedScores, Collections.reverseOrder());<a name="line.426"></a>
+<FONT color="green">427</FONT>            // Write estimated preferences<a name="line.427"></a>
+<FONT color="green">428</FONT>            int pos = 1;<a name="line.428"></a>
+<FONT color="green">429</FONT>            for (float pref : sortedScores) {<a name="line.429"></a>
+<FONT color="green">430</FONT>                for (long itemID : preferenceMap.get(pref)) {<a name="line.430"></a>
+<FONT color="green">431</FONT>                    writer.println(userID + "\tQ0\t" + itemID + "\t" + pos + "\t" + pref + "\t" + "r");<a name="line.431"></a>
+<FONT color="green">432</FONT>                    pos++;<a name="line.432"></a>
+<FONT color="green">433</FONT>                }<a name="line.433"></a>
+<FONT color="green">434</FONT>                if (pos &gt; maxRankSize) {<a name="line.434"></a>
+<FONT color="green">435</FONT>                    break;<a name="line.435"></a>
+<FONT color="green">436</FONT>                }<a name="line.436"></a>
+<FONT color="green">437</FONT>            }<a name="line.437"></a>
+<FONT color="green">438</FONT>        }<a name="line.438"></a>
+<FONT color="green">439</FONT>    <a name="line.439"></a>
+<FONT color="green">440</FONT>        /**<a name="line.440"></a>
+<FONT color="green">441</FONT>         *<a name="line.441"></a>
+<FONT color="green">442</FONT>         * Convenience method which encapsulates some trivial operations over the current map of preferences<a name="line.442"></a>
+<FONT color="green">443</FONT>         *<a name="line.443"></a>
+<FONT color="green">444</FONT>         * @param item current item<a name="line.444"></a>
+<FONT color="green">445</FONT>         * @param pref preference towards an item (for some -unknown- user)<a name="line.445"></a>
+<FONT color="green">446</FONT>         * @param preferenceMap mapping of preferences for some user<a name="line.446"></a>
+<FONT color="green">447</FONT>         */<a name="line.447"></a>
+<FONT color="green">448</FONT>        protected static void addItemToRanking(long item, float pref, Map&lt;Float, Set&lt;Long&gt;&gt; preferenceMap) {<a name="line.448"></a>
+<FONT color="green">449</FONT>            Set&lt;Long&gt; items = preferenceMap.get(pref);<a name="line.449"></a>
+<FONT color="green">450</FONT>            if (items == null) {<a name="line.450"></a>
+<FONT color="green">451</FONT>                items = new TreeSet&lt;Long&gt;();<a name="line.451"></a>
+<FONT color="green">452</FONT>                preferenceMap.put(pref, items);<a name="line.452"></a>
+<FONT color="green">453</FONT>            }<a name="line.453"></a>
+<FONT color="green">454</FONT>    <a name="line.454"></a>
+<FONT color="green">455</FONT>            items.add(item);<a name="line.455"></a>
+<FONT color="green">456</FONT>        }<a name="line.456"></a>
+<FONT color="green">457</FONT>    <a name="line.457"></a>
+<FONT color="green">458</FONT>        /**<a name="line.458"></a>
+<FONT color="green">459</FONT>         *<a name="line.459"></a>
+<FONT color="green">460</FONT>         * Default name for the file where the recommendations (in the form of rankings)<a name="line.460"></a>
+<FONT color="green">461</FONT>         * will be generated.<a name="line.461"></a>
+<FONT color="green">462</FONT>         * By default, it is simply<a name="line.462"></a>
+<FONT color="green">463</FONT>         * outfolder "eval-" recommenderName ".txt"<a name="line.463"></a>
+<FONT color="green">464</FONT>         *<a name="line.464"></a>
+<FONT color="green">465</FONT>         * @param outFolder folder where the recommendation file will be generated<a name="line.465"></a>
+<FONT color="green">466</FONT>         * @param recommenderName name of the recommender<a name="line.466"></a>
+<FONT color="green">467</FONT>         * @return default name for the generated file<a name="line.467"></a>
+<FONT color="green">468</FONT>         */<a name="line.468"></a>
+<FONT color="green">469</FONT>        public static String getFileName(String outFolder, String recommenderName) {<a name="line.469"></a>
+<FONT color="green">470</FONT>            return outFolder + "eval-" + recommenderName + ".txt";<a name="line.470"></a>
+<FONT color="green">471</FONT>        }<a name="line.471"></a>
+<FONT color="green">472</FONT>    <a name="line.472"></a>
+<FONT color="green">473</FONT>        private class UserRecommenderEvaluator extends TimerTask {<a name="line.473"></a>
+<FONT color="green">474</FONT>    <a name="line.474"></a>
+<FONT color="green">475</FONT>            private long userID;<a name="line.475"></a>
+<FONT color="green">476</FONT>            private Set&lt;Long&gt; relSet;<a name="line.476"></a>
+<FONT color="green">477</FONT>            private Map&lt;Long, Set&lt;Long&gt;&gt; notRelMap;<a name="line.477"></a>
+<FONT color="green">478</FONT>            private PrintStream writer;<a name="line.478"></a>
+<FONT color="green">479</FONT>            private Recommender r;<a name="line.479"></a>
+<FONT color="green">480</FONT>            private String rec;<a name="line.480"></a>
+<FONT color="green">481</FONT>            private Map&lt;Long, Float&gt; userItemPreferenceMap;<a name="line.481"></a>
+<FONT color="green">482</FONT>    <a name="line.482"></a>
+<FONT color="green">483</FONT>            public UserRecommenderEvaluator(long userID, Set&lt;Long&gt; relSet, Map&lt;Long, Set&lt;Long&gt;&gt; notRelMap, PrintStream writer, Recommender r, String rec, Map&lt;Long, Float&gt; userItemPreferenceMap) {<a name="line.483"></a>
+<FONT color="green">484</FONT>                this.userID = userID;<a name="line.484"></a>
+<FONT color="green">485</FONT>                this.relSet = relSet;<a name="line.485"></a>
+<FONT color="green">486</FONT>                this.notRelMap = notRelMap;<a name="line.486"></a>
+<FONT color="green">487</FONT>                this.writer = writer;<a name="line.487"></a>
+<FONT color="green">488</FONT>                this.r = r;<a name="line.488"></a>
+<FONT color="green">489</FONT>                this.rec = rec;<a name="line.489"></a>
+<FONT color="green">490</FONT>                this.userItemPreferenceMap = userItemPreferenceMap;<a name="line.490"></a>
+<FONT color="green">491</FONT>            }<a name="line.491"></a>
+<FONT color="green">492</FONT>    <a name="line.492"></a>
+<FONT color="green">493</FONT>            @Override<a name="line.493"></a>
+<FONT color="green">494</FONT>            public void run() {<a name="line.494"></a>
+<FONT color="green">495</FONT>                for (long item : relSet) {<a name="line.495"></a>
+<FONT color="green">496</FONT>                    estimatePreference(userID, item, r, userItemPreferenceMap);<a name="line.496"></a>
+<FONT color="green">497</FONT>                    for (long itemN : notRelMap.get(item)) {<a name="line.497"></a>
+<FONT color="green">498</FONT>                        estimatePreference(userID, itemN, r, userItemPreferenceMap);<a name="line.498"></a>
+<FONT color="green">499</FONT>                    }<a name="line.499"></a>
+<FONT color="green">500</FONT>                }<a name="line.500"></a>
+<FONT color="green">501</FONT>                writeRanking(userID, relSet, notRelMap, userItemPreferenceMap, rec, writer);<a name="line.501"></a>
+<FONT color="green">502</FONT>            }<a name="line.502"></a>
+<FONT color="green">503</FONT>        }<a name="line.503"></a>
+<FONT color="green">504</FONT>    <a name="line.504"></a>
+<FONT color="green">505</FONT>        private class UserEvaluator extends TimerTask {<a name="line.505"></a>
+<FONT color="green">506</FONT>    <a name="line.506"></a>
+<FONT color="green">507</FONT>            private long userID;<a name="line.507"></a>
+<FONT color="green">508</FONT>            private Set&lt;Long&gt; relSet;<a name="line.508"></a>
+<FONT color="green">509</FONT>            private Map&lt;Long, Set&lt;Long&gt;&gt; notRelMap;<a name="line.509"></a>
+<FONT color="green">510</FONT>            private List&lt;Recommender&gt; recs;<a name="line.510"></a>
+<FONT color="green">511</FONT>            private List&lt;String&gt; recNames;<a name="line.511"></a>
+<FONT color="green">512</FONT>            private List&lt;PrintStream&gt; streams;<a name="line.512"></a>
+<FONT color="green">513</FONT>            private int nThread;<a name="line.513"></a>
+<FONT color="green">514</FONT>    <a name="line.514"></a>
+<FONT color="green">515</FONT>            public UserEvaluator(long userID, Set&lt;Long&gt; relSet, Map&lt;Long, Set&lt;Long&gt;&gt; notRelMap, List&lt;Recommender&gt; recs, List&lt;String&gt; recNames, List&lt;PrintStream&gt; writer, int nThread) {<a name="line.515"></a>
+<FONT color="green">516</FONT>                this.userID = userID;<a name="line.516"></a>
+<FONT color="green">517</FONT>                this.relSet = relSet;<a name="line.517"></a>
+<FONT color="green">518</FONT>                this.notRelMap = notRelMap;<a name="line.518"></a>
+<FONT color="green">519</FONT>                this.recs = recs;<a name="line.519"></a>
+<FONT color="green">520</FONT>                this.recNames = recNames;<a name="line.520"></a>
+<FONT color="green">521</FONT>                this.streams = writer;<a name="line.521"></a>
+<FONT color="green">522</FONT>                this.nThread = nThread;<a name="line.522"></a>
+<FONT color="green">523</FONT>            }<a name="line.523"></a>
+<FONT color="green">524</FONT>    <a name="line.524"></a>
+<FONT color="green">525</FONT>            @Override<a name="line.525"></a>
+<FONT color="green">526</FONT>            public void run() {<a name="line.526"></a>
+<FONT color="green">527</FONT>                ExecutorService recPool = null;<a name="line.527"></a>
+<FONT color="green">528</FONT>                if (nThread &gt; 1) {<a name="line.528"></a>
+<FONT color="green">529</FONT>                    recPool = Executors.newFixedThreadPool(nThread);<a name="line.529"></a>
+<FONT color="green">530</FONT>                }<a name="line.530"></a>
+<FONT color="green">531</FONT>                for (int i = 0; i &lt; recs.size(); i++) {<a name="line.531"></a>
+<FONT color="green">532</FONT>                    final PrintStream writer = streams.get(i);<a name="line.532"></a>
+<FONT color="green">533</FONT>                    if (writer == null) {<a name="line.533"></a>
+<FONT color="green">534</FONT>                        continue;<a name="line.534"></a>
+<FONT color="green">535</FONT>                    }<a name="line.535"></a>
+<FONT color="green">536</FONT>                    final Recommender r = recs.get(i);<a name="line.536"></a>
+<FONT color="green">537</FONT>                    final String rec = recNames.get(i);<a name="line.537"></a>
+<FONT color="green">538</FONT>                    final Map&lt;Long, Float&gt; userItemPreferenceMap = new HashMap&lt;Long, Float&gt;();<a name="line.538"></a>
+<FONT color="green">539</FONT>                    final UserRecommenderEvaluator ue = new UserRecommenderEvaluator(userID, relSet, notRelMap, writer, r, rec, userItemPreferenceMap);<a name="line.539"></a>
+<FONT color="green">540</FONT>                    if (recPool == null) {<a name="line.540"></a>
+<FONT color="green">541</FONT>                        ue.run();<a name="line.541"></a>
+<FONT color="green">542</FONT>                    } else {<a name="line.542"></a>
+<FONT color="green">543</FONT>                        recPool.execute(ue);<a name="line.543"></a>
+<FONT color="green">544</FONT>                    }<a name="line.544"></a>
+<FONT color="green">545</FONT>                }<a name="line.545"></a>
+<FONT color="green">546</FONT>                if (recPool != null) {<a name="line.546"></a>
+<FONT color="green">547</FONT>                    recPool.shutdown();<a name="line.547"></a>
+<FONT color="green">548</FONT>                    try {<a name="line.548"></a>
+<FONT color="green">549</FONT>                        while (!recPool.awaitTermination(10 * 24 * 60 * 60, TimeUnit.SECONDS)) {<a name="line.549"></a>
+<FONT color="green">550</FONT>                            System.err.println("Try again!");<a name="line.550"></a>
+<FONT color="green">551</FONT>                        }<a name="line.551"></a>
+<FONT color="green">552</FONT>                    } catch (InterruptedException e) {<a name="line.552"></a>
+<FONT color="green">553</FONT>                        e.printStackTrace();<a name="line.553"></a>
+<FONT color="green">554</FONT>                    }<a name="line.554"></a>
+<FONT color="green">555</FONT>                }<a name="line.555"></a>
+<FONT color="green">556</FONT>            }<a name="line.556"></a>
+<FONT color="green">557</FONT>        }<a name="line.557"></a>
+<FONT color="green">558</FONT>    }<a name="line.558"></a>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+</PRE>
+</BODY>
+</HTML>

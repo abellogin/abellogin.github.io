@@ -1,0 +1,258 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html><head>
+
+
+  <meta content="text/html; charset=ISO-8859-15" http-equiv="content-type">
+  <link rel="STYLESHEET" href="POO%20%20Pr%C3%A1ctica%202_files/poo.css">
+  <title>POO: Práctica 2</title>
+</head><body>
+<!-- titulo de la practica y fechas de entrega -->
+<p class="cabecera">Programación Orientada a Objetos. Curso
+2009/2010<span style="font-weight: bold;"><br>
+</span></p>
+<h1>Práctica 2. Clases, herencia y RMI</h1>
+<table style="text-align: left; width: 100%;" border="1" cellpadding="2" cellspacing="2">
+  <tbody>
+    <tr>
+      <td style="vertical-align: top;">Calendario<br>
+      </td>
+      <td style="vertical-align: top;">Lunes<br>
+      </td>
+      <td style="vertical-align: top;">Martes<br>
+      </td>
+      <td style="vertical-align: top;">Miércoles<br>
+      </td>
+      <td style="vertical-align: top;">Jueves<br>
+      </td>
+      <td style="vertical-align: top;">Viernes<br>
+      </td>
+      <td style="vertical-align: top;">Observaciones<br>
+      </td>
+    </tr>
+    <tr>
+      <td style="vertical-align: top;">Inicio<br>
+      </td>
+      <td style="vertical-align: top;">08/3<br>
+      </td>
+      <td style="vertical-align: top;">09/3<br>
+      </td>
+      <td style="vertical-align: top;">10/3<br>
+      </td>
+      <td style="vertical-align: top;">11/3<br>
+      </td>
+      <td style="vertical-align: top;">05/3<br>
+      </td>
+      <td style="vertical-align: top;"><br>
+      </td>
+    </tr>
+    <tr>
+      <td style="vertical-align: top;">Evaluación<br>
+      </td>
+      <td style="vertical-align: top;">19/4<br>
+      </td>
+      <td style="vertical-align: top;">20/4<br>
+      </td>
+      <td style="vertical-align: top;">21/4<br>
+      </td>
+      <td style="vertical-align: top;">22/4<br>
+      </td>
+      <td style="vertical-align: top;">16/4<br>
+      </td>
+      <td style="vertical-align: top;">Entrega el día anterior.
+El grupo del lunes 2 horas antes del comienzo de la clase.<br>
+      </td>
+    </tr>
+  </tbody>
+</table>
+<p class="duracion"><br>
+</p>
+<h2>Objetivos</h2>
+<p>En esta práctica el alumno se formará en los
+siguientes conceptos y habilidades:</p>
+<ul>
+  <li>Definición e implementación de clases (variables,
+métodos, constructores, etc.), interfaces y elementos
+básicos de orientación a objetos, para el desarrollo de
+un programa.</li>
+  <li>Definición de jerarquías de clases, y manejo de los
+mecanismos asociados a las mismas: herencia, polimorfismo,
+jerarquía de tipos.</li>
+  <li>Transición del diseño abstracto de un programa a
+una implementación completa.</li>
+  <li>Iniciación a la tecnología de objetos distribuidos.</li>
+</ul>
+<p>Se implementará un proyecto completo en Java, a partir de un
+diseño orientado a objetos dado en UML. En una segunda fase, la
+aplicación se completará con una capa de arquitectura
+distribuida. Para ello, el alumno tendrá a su
+disposición:
+</p>
+<ul>
+  <li>Un diagrama de clases en UML: creado por el alumno en la
+práctica anterior, el cual se puede modificar de acuerdo a las
+correcciones del profesor y de los errores encontrados por el alumno.
+Dichas correcciones han de incluirse en la memoria indicando la
+razón de la modificación. </li>
+  <li>Un <a href="interfaces.zip">conjunto
+de interfaces Java</a>, facilitadas por los profesores, como base para
+el desarrollo de la práctica. Las interfaces definen un
+protocolo común entre todas las prácticas entregadas,
+además de ayudar a pensar en forma orientada a objetos.</li>
+  <ul>
+    <li>Nota: La interfaz del Servidor permitirá usar el objeto
+servidor de forma remota mediante RMI, y contiene todos lo métodos que
+se usarán de forma remota. Estos métodos declaran que pueden producir
+excepciones del tipo RemoteException, ya que se podrían producir
+errores de comunicación, serialización, etc.<br>
+    </li>
+  </ul>
+</ul>
+<p>Se valorará un diseño que aplique adecuadamente los
+principios de orientación a objetos (jerarquías de clase,
+modularidad, etc.) y haga un uso adecuado de las clases de la
+librería estándar Java.</p>
+<h2>Descripción del proyecto</h2>
+<p>Se implementará completamente el <i>sistema de reserva de
+entradas de cine</i> diseñado en la práctica anterior
+(con las rectificaciones oportunas). Se definirán las clases e
+interfaces Java necesarias, las estructuras de datos y métodos
+de las clases, desarrollando un programa completo.</p>
+<p>El trabajo a realizar incluye las siguientes partes:</p>
+<h4>1.&nbsp; Implementación básica</h4>
+<p>En esta primera fase, se implementará la gestión
+completa de datos y estructuras, y todos los detalles necesarios de
+cada clase, necesarios para las funcionalidades básicas del
+sistema: creación de salas, asignación de sesiones,
+horarios, reserva de localidades, etc. Partiendo del diagrama y las
+interfaces suministrados en esta práctica, el programa se
+desarrollará como una especialización de un sistema
+abstracto de reserva de recursos. En este caso el recurso puede ser el
+derecho a una butaca para ver un evento un día y durante un
+tiempo concreto, si la sesión es numerada; o el sistema
+podría proporcionar una cantidad de entradas para un evento, un
+día y durante un tiempo determinado, en el caso de acceso a una
+sesión no numerada.</p>
+<p>La implementación se podrá hacer como una
+aplicación local (un solo proceso). Las clases se
+conectarán con las interfaces proporcionadas, pero se
+podrán ignorar las referencias a elementos RMI que puedan
+aparecer en éstas, así como la terminología de
+cliente-servidor.</p>
+<p>El eje de la aplicación será un objeto <b>servidor</b>
+(o cine) que se
+encargará de ofrecer los recursos disponibles,
+información sobre los
+eventos, butacas libres en cada zona, etc. Además
+permitirá
+completar el pago de dichas entradas. </p>
+<p>Otro tipo de objeto fundamental será el <b>cliente</b>, que
+ofrecerá al usuario la información del servidor, y
+permitirá comprar las entradas en dos fases: una de reserva y
+otra de pago (junto con la compra y reserva definitiva de las entradas
+una vez realizado el pago correctamente). El usuario cliente se
+comunicará interactivamente con el programa, por lo que el
+alumno debe implementar una interfaz que permita realizar estas
+funcionalidades por línea de comandos.</p>
+<p>Otro de los usuarios del sistema es el <b>gestor</b> del cine. Para
+este usuario se ha de ofrecer una funcionalidad básica adaptada
+a sus necesidades, para que pueda crear fácilmente cada sala,
+con sus filas y butacas concretas, dando la menor
+información posible. Por ejemplo se puede asumir que cada zona
+de la sala es cuadrada, con un número de filas y las mismas
+butacas en cada una. Además ha de poder crear las sesiones, por
+ejemplo especificando un rango de fechas, un intervalo
+(diario/semanal), la hora de la sesión y el título o
+código correspondiente al evento.</p>
+<p>Para simplificar la aplicación no será necesario que
+el gestor diseñe los recursos de forma interactiva, sino que
+estos se podrán fijar directamente mediante código java
+que ejecutará el servidor al iniciarse, sin interfaz de usuario,
+aunque se han de diseñar las clases necesarias, para que el
+método que especifica las salas/eventos requiera el
+menor código posible.</p>
+<p>Se aconseja seguir la convención de paquetes que se incluye
+en las clases entregadas, es decir: <b>es.uam.eps.poo</b>.</p>
+<h4>2.&nbsp; Arquitectura distribuida</h4>
+<p>En una segunda fase, se dotará al programa de una
+arquitectura cliente-servidor basada en objetos distribuidos RMI. Los
+objetos cliente y servidor, implementados en el paso anterior,
+podrán encontrarse en máquinas distintas. La
+comunicación entre el cliente y el sistema se adaptará
+añadiendo capacidad de ejecución remota, o en su caso
+serialización, a las clases que se considere necesario. Se ha de
+tener en cuenta que los objetos remotos deberán crearse (llamada
+directa al constructor) en el lado que les es natural (generalmente
+servidor, o excepcionalmente cliente), de forma que el otro programa
+sólo use las referencias a ellos (stubs), o si se considera
+adecuado en algún caso, copias serializadas. El sistema
+permitirá a varios clientes acceder a un único servidor.</p>
+<p>&nbsp;Consideraciones:</p>
+<ul>
+  <li>Se aconseja al alumno esforzarse en tener el sistema de reservas
+completamente funcional antes de comenzar esta segunda parte de la
+práctica. </li>
+  <li><a href="http://arantxa.ii.uam.es/%7Ecastells/docencia/poo/9-networking.pdf">Documentación</a>
+sobre RMI, y ejemplos (<a href="http://java.sun.com/docs/books/tutorial/rmi/client.html">cliente</a>,
+    <a href="http://java.sun.com/docs/books/tutorial/rmi/server.html">servidor</a>).
+  </li>
+</ul>
+<h4>3.&nbsp; Opcional</h4>
+<ol type="a">
+  <li>Extender el programa con un servicio central que permita al
+cliente acceder a distintos cines.</li>
+  <li>Crear un servicio separado para el cobro con tarjeta.</li>
+  <li>Adaptando el diseño, crear otro tipo de sistema de
+gestión de recursos, como reserva de hoteles, vuelos, o tienda
+on-line.</li>
+</ol>
+<h2>Diagrama de clases abstracto</h2>
+<p>A continuación se muestra el diagrama de clases de la parte
+abstracta, correspondiente a las <a href="interfaces.zip">interfaces</a>
+entregadas por los profesores.</p>
+<p><img src="interfaces.gif"></p>
+<h2>Pruebas</h2>
+<p>Las prácticas entregadas han de cumplir las <a href="interfaces.zip">interfaces</a>
+entregadas por los profesores. En
+particular, debería ser posible, dadas las prácticas de
+las parejas X e Y, intercambiar la parte del cliente de X y que
+funcione con el servidor de Y, y viceversa.
+</p>
+<p>Por otro lado, no se prevé entregar ningún conjunto de
+test durante el desarrollo de esta práctica, pero se recomienda
+a los alumnos que implementen, ejecuten, entreguen y documenten tantos
+casos de prueba como crean necesarios.
+</p>
+<h2>Entrega</h2>
+<p>Las prácticas se deben entregar antes de la fecha de
+evaluación indicada al comienzo del enunciado, teniendo en
+cuenta las horas límite
+de entrega mencionadas en las <a href="http://arantxa.ii.uam.es/%7Epoo/practicas/normas.html#entrega">normas</a>
+de la asignatura.<br>
+</p>
+<p>El fichero <span style="font-style: italic;">.zip</span>
+a entregar debe incluir:</p>
+<ul>
+  <li>un <span style="font-style: italic;">leeme.txt</span> que
+describa los ficheros incluidos en el <span style="font-style: italic;">.zip</span>.</li>
+  <li>el <span style="font-style: italic;">build.xml</span> usado para
+compilar y ejecutar la práctica (generado por netbeans o creado
+manualmente).<br>
+  </li>
+  <li>una <span style="font-style: italic;">memoria</span> en pdf<span style="font-style: italic;"></span><span style="font-style: italic;"></span>
+y un directorio javadoc con la documentación generada para cada
+clase. <br>
+  </li>
+  <li>y <span style="font-style: italic;">los fuentes</span>, en un
+directorio llamado "src" con la estructura de directorios necesaria
+para que, descomprimiendo el <span style="font-style: italic;">.zip</span>
+entregado y escribiendo "ant run" (es decir, ejecutando el "<span style="font-style: italic;">build.xml</span>" includido en el <span style="font-style: italic;">.zip</span>), la práctica se
+compile y
+ejecute correctamente.</li>
+</ul>
+<p><span style="font-weight: bold;">NOTA:</span>
+Las entregas que no cumplan los requisitos enumerados en las normas
+recibirán una penalización de 0.5 puntos.</p>
+<span class="copyright">(C) 2009-2010 Escuela Politécnica
+Superior, UAM</span><br>
+<br>
+</body></html>

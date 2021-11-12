@@ -1,0 +1,281 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html>
+<head>
+  <link rel="STYLESHEET" href="poo.css">
+  <title>POO: Pr&aacute;ctica 1</title>
+</head>
+<body>
+<!-- titulo de la practica y fechas de entrega -->
+<p class="cabecera">Programaci&oacute;n Orientada a Objetos. Curso
+2009/2010<span style="font-weight: bold;"><br>
+</span></p>
+<h1>Pr&aacute;ctica 1. Introducci&oacute;n al lenguaje Java</h1>
+<table style="text-align: left; width: 100%;" border="1" cellpadding="2"
+ cellspacing="2">
+  <tbody>
+    <tr>
+      <td style="vertical-align: top;">Calendario<br>
+      </td>
+      <td style="vertical-align: top;">Lunes<br>
+      </td>
+      <td style="vertical-align: top;">Martes<br>
+      </td>
+      <td style="vertical-align: top;">Mi&eacute;rcoles<br>
+      </td>
+      <td style="vertical-align: top;">Jueves<br>
+      </td>
+      <td style="vertical-align: top;">Viernes<br>
+      </td>
+      <td style="vertical-align: top;">Observaciones<br>
+      </td>
+    </tr>
+    <tr>
+      <td style="vertical-align: top;">Inicio<br>
+      </td>
+      <td style="vertical-align: top;">22/2<br>
+      </td>
+      <td style="vertical-align: top;">23/2<br>
+      </td>
+      <td style="vertical-align: top;">24/2<br>
+      </td>
+      <td style="vertical-align: top;">25/2<br>
+      </td>
+      <td style="vertical-align: top;">19/2<br>
+      </td>
+      <td style="vertical-align: top;"><br>
+      </td>
+    </tr>
+    <tr>
+      <td style="vertical-align: top;">Evaluaci&oacute;n<br>
+      </td>
+      <td style="vertical-align: top;">8/3<br>
+      </td>
+      <td style="vertical-align: top;">9/3<br>
+      </td>
+      <td style="vertical-align: top;">10/3<br>
+      </td>
+      <td style="vertical-align: top;">11/3<br>
+      </td>
+      <td style="vertical-align: top;">5/3<br>
+      </td>
+      <td style="vertical-align: top;">Entrega el d&iacute;a anterior.
+El grupo del lunes 2 horas antes del comienzo de la clase<br>
+      </td>
+    </tr>
+  </tbody>
+</table>
+<p class="duracion"><br>
+</p>
+<div class="erratas">
+<p> Enlace al <a href="http://argouml.tigris.org/" target="blank">sitio
+de descarga</a> de ArgoUML, herramienta para generar el diagrama de
+clases de la pr&aacute;ctica. </p>
+</div>
+<h2>Objetivo</h2>
+<p>El objetivo de la primera pr&aacute;ctica es aprender la sintaxis
+b&aacute;sica de
+Java (asumiendo experiencia en C) y adquirir familiaridad
+con el entorno de desarrollo <a href="http://www.netbeans.org">NetBeans</a>.
+Las dos primeras pr&aacute;cticas del curso consistir&aacute;n en
+implementar un sistema de gesti&oacute;n de reserva de recursos por
+internet. En la primera pr&aacute;ctica el alumno deber&aacute;
+analizar el problema que se
+plantea y crear en java el esqueleto de sus primeras clases, sin
+c&oacute;digo en los m&eacute;todos ni variables.<br>
+</p>
+<p>El sistema de reserva de recursos se ha de dise&ntilde;ar como un
+sistema abstracto, y se crear&aacute;n las clases necesarias para que
+pueda ser usado como un sistema de venta de entradas que
+permita a varios clientes acceder a un &uacute;nico servidor. En este
+caso el recurso puede ser el derecho a una butaca para ver un
+espect&aacute;culo un d&iacute;a y durante un tiempo concreto, si la
+sesi&oacute;n es numerada; o el sistema podr&iacute;a proporcionar una
+cantidad de entradas para un espect&aacute;culo, un d&iacute;a y
+durante un tiempo determinado, en el caso de acceso a una sesi&oacute;n
+no numerada. Por lo tanto, algunos recursos como las salas,
+podr&iacute;an poder dividirse en varios subrecursos (zonas/butacas en
+sesiones numeradas), o ser usados simplemente con un n&uacute;mero de
+unidades disponibles (no numerado).<br>
+</p>
+<p>El servidor se
+encargar&aacute; de ofrecer los recursos disponibles,
+informaci&oacute;n sobre los
+espect&aacute;culos, butacas libres en cada zona, etc. Adem&aacute;s
+permitir&aacute;
+completar el pago de dichas entradas.</p>
+<p>El cliente ofrecer&aacute; esta informaci&oacute;n al usuario y
+permitir&aacute; reservar
+las entradas necesarias en una primera fase, y en una segunda fase
+pedir la informaci&oacute;n al usuario para realizar el pago y reservar
+definitivamente las entradas una vez realizado correctamente.<br>
+</p>
+<p>Otro de los usuarios del sistema es el gestor del cine/teatro. Para
+este usuario se ha de ofrecer una funcionalidad b&aacute;sica adaptada
+a sus necesidades, para que pueda crear f&aacute;cilmente cada sala,
+con sus zonas, filas y butacas concretas, dando la menor
+informaci&oacute;n posible. Por ejemplo se puede asumir que cada zona
+de la sala es cuadrada, con un n&uacute;mero de filas y las mismas
+butacas en cada una. Adem&aacute;s ha de poder crear las sesiones, por
+ejemplo especificando un rango de fechas, un intervalo
+(diario/semanal), la hora de la sesi&oacute;n y el t&iacute;tulo o
+c&oacute;digo correspondiente al espect&aacute;culo.<br>
+</p>
+<p>Para simplificar la aplicaci&oacute;n no ser&aacute; necesario que
+el gestor dise&ntilde;e los recursos de forma interactiva, sino que
+estos se podr&aacute;n fijar directamente mediante c&oacute;digo java
+que ejecutar&aacute; el servidor al iniciarse, sin interfaz de usuario,
+aunque se han de dise&ntilde;ar las clases necesarias, para que el
+m&eacute;todo que especifica las salas/espect&aacute;culos requiera el
+menor c&oacute;digo posible.<br>
+</p>
+<p>Los mensajes en este sistema cliente/servidor son llamadas a
+m&eacute;todos
+Java de los objetos en el servidor desde objetos en el cliente,
+ser&aacute; la
+m&aacute;quina virtual la que realize toda la comunicaci&oacute;n y
+transformaciones
+necesarias cuando detecte que el objeto destino del mensaje se
+encuentra en otra m&aacute;quina virtual.</p>
+<p>Para que el cliente pueda encontrar al servidor se supondr&aacute; que
+tenemos un m&eacute;todo que dada la IP y un nombre dado a nuestro
+objeto servidor, podemos obtener una referencia a este, que
+podr&aacute; ser utilizada en adelante como si se el objeto remoto
+estuviese realmente en la misma m&aacute;quina virtual que el cliente.<br>
+</p>
+<p></p>
+<h2>Diagrama de clases<br>
+</h2>
+<p>Se entregar&aacute; un diagrama de clases con el dise&ntilde;o del
+sistema.</p>
+<p>En esta primera pr&aacute;ctica se puede suponer que la
+aplicaci&oacute;n se ejecuta en un mismo espacio de memoria, por lo
+tanto no se considerar&aacute;n los problemas propios de las
+comunicaciones cliente/servidor, y el diagrama contendr&aacute; el
+dise&ntilde;o del sistema como si fuese una sola aplicaci&oacute;n. Sin
+embargo, sí ser&aacute; necesario tener en cuenta que la
+comunicaci&oacute;n entre el cliente y servidor ha de ser sencilla y
+eficaz, reduciendo al m&aacute;ximo el n&uacute;mero de mensajes que se
+intercambiar&aacute;n y la complejidad o tama&ntilde;o de los objetos
+enviados/recibidos (argumentos/resultados de los m&eacute;todos de los
+objetos remotos).<br>
+</p>
+<h2>Clases a implementar</h2>
+<p>
+En la primera pr&aacute;ctica el alumno deber&aacute; crear las clases
+dise&ntilde;adas, exceptuando las relativas a interfaz de usuario.
+Estas clases no contendr&aacute;n c&oacute;digo ni variables, pero
+s&iacute; la documentaci&oacute;n JavaDoc para poder generar una
+memoria html que describa cada clase y m&eacute;todo dise&ntilde;ado.<br>
+Las clases tendr&aacute;n los m&eacute;todos getters / setters
+necesarios para las propiedades de cada clase. Para que puedan ser
+compilados se puede incluir un retorno de alg&uacute;n valor trivial
+(null, 0, "", etc.), en el caso de que el m&eacute;todos que devuelven
+alg&uacute;n valor.<br>
+</p>
+<p>Tambi&eacute;n se ha de crear una clase MainServidor, con un
+m&eacute;todo main que ilustre con un ejemplo sencillo como
+ser&iacute;a el c&oacute;digo para crear los recursos.<br>
+</p>
+<h2>Pruebas y entrega</h2>
+<p>Las pr&aacute;cticas se deben entregar antes de la fecha de
+evaluaci&oacute;n indicada al comienzo del enunciado, teniendo en
+cuenta las horas l&iacute;mite
+de entrega mencionadas en las <a href="normas.html#entrega">normas</a>
+de la asignatura.<br>
+</p>
+<p>El fichero <span style="font-style: italic;">.zip</span>
+a entregar debe incluir:</p>
+<ul>
+  <li>un <span style="font-style: italic;">leeme.txt</span> que
+describa los ficheros incluidos en el <span style="font-style: italic;">.zip</span>.</li>
+  <li>el <span style="font-style: italic;">build.xml</span> usado para
+compilar y ejecutar la pr&aacute;ctica (generado por netbeans o creado
+manualmente).<br>
+  </li>
+  <li>una <span style="font-style: italic;">memoria</span> en pdf<span
+ style="font-style: italic;"></span><span style="font-style: italic;"></span>
+y un directorio javadoc con la documentaci&oacute;n generada para cada
+clase. <br>
+  </li>
+  <li>y <span style="font-style: italic;">los fuentes</span>, en un
+directorio llamado "src" con la estructura de directorios necesaria
+para que, descomprimiendo el <span style="font-style: italic;">.zip</span>
+entregado y escribiendo "ant run" (es decir, ejecutando el "<span
+ style="font-style: italic;">build.xml</span>" includido en el <span
+ style="font-style: italic;">.zip</span>), la pr&aacute;ctica se
+compile y
+ejecute correctamente los casos de prueba.</li>
+</ul>
+<p><span style="font-weight: bold;">NOTA:</span>
+Las entregas que no cumplan los requisitos enumerados en las normas
+recibir&aacute;n una penalizaci&oacute;n de 0.5 puntos.</p>
+<h2>Ap&eacute;ndice: Sobre estas pr&aacute;cticas<br>
+</h2>
+<ol>
+</ol>
+<p>Este apartado contiene una serie de reflexiones sobre el enfoque de
+estas pr&aacute;cticas, por qu&eacute; se hacen as&iacute;, y qu&eacute;
+se va a pedir en las
+siguientes pr&aacute;cticas.<br>
+</p>
+<h3>C&oacute;digo en los enunciados<br>
+</h3>
+<p>Las pr&aacute;cticas de POO se diferencian de otras en que, junto
+con cada
+enunciado, se entrega bastante c&oacute;digo. Esto se hace por los
+siguientes
+motivos:<br>
+</p>
+<ul>
+  <li><span style="font-weight: bold;">Java no es C</span>. Se espera
+que todos los alumnos tengan un nivel bastante alto de
+programaci&oacute;n en
+C. La sintaxis de Java es muy similar a la de C, y si las primeras
+pr&aacute;cticas pidiesen escribir un programa desde cero, el resultado
+no
+tendr&iacute;a nada de orientaci&oacute;n a objetos. Si se parte de un
+programa con
+dise&ntilde;o OO, se evita el riesgo de que todo el programa
+est&eacute; compuesto de
+m&eacute;todos "public static".</li>
+  <li><span style="font-weight: bold;">Convenciones en Java</span>. hay
+mucha m&aacute;s uniformidad en cuanto a estilo de programaci&oacute;n
+en Java que en
+otros lenguajes. Hay convenciones de nombrado de clases y de variables,
+convenciones sobre los nombres dados a m&eacute;todos, de formato de
+comentarios de cabecera, de indentado, de organizaci&oacute;n en
+paquetes,
+etc&eacute;tera. Es mejor partir de un ejemplo en el que todo
+est&aacute; escrito
+siguiendo estas convenciones que intentar que se apliquen desde cero,
+son muchas.</li>
+  <li><span style="font-weight: bold;">Uso de librer&iacute;as</span>.
+Programar en Java tiene un gran componente de saber usar c&oacute;digo
+existente: las librer&iacute;as disponibles son uno de los puntos
+fuertes de
+Java. Esto es menos cierto en C, donde la mayor parte de las
+librer&iacute;as
+son externas (y por tanto, no tan est&aacute;ndares). Es fundamental
+perder el
+miedo a las librer&iacute;as y saber manejar su documentaci&oacute;n
+desde un primer
+momento.</li>
+  <li><span style="font-weight: bold;">OO y Patrones</span>. La
+orientaci&oacute;n a objetos promueve la reutilizaci&oacute;n no
+s&oacute;lo de c&oacute;digo, sino
+tambi&eacute;n de estrategias de dise&ntilde;o ("patrones de
+dise&ntilde;o"). Esto se da en
+mucho mayor medida que en lenguajes menos abstractos, tipo C. En el
+c&oacute;digo que se entrega se hace uso de varios patrones
+establecidos. La
+idea es que, desarrollando y extendiendo sobre un buen dise&ntilde;o,
+se
+mejora la capacidad de entender y crear buenos dise&ntilde;os.<br>
+    <br>
+  </li>
+</ul>
+<span class="copyright">(C) 2009-2010 Escuela Polit&eacute;cnica
+Superior, UAM</span><br>
+<br>
+</body>
+</html>

@@ -1,0 +1,180 @@
+<HTML>
+<BODY BGCOLOR="white">
+<PRE>
+<FONT color="green">001</FONT>    package es.uam.eps.irg.rs.trec.eval.rec;<a name="line.1"></a>
+<FONT color="green">002</FONT>    <a name="line.2"></a>
+<FONT color="green">003</FONT>    import java.io.FileNotFoundException;<a name="line.3"></a>
+<FONT color="green">004</FONT>    import java.io.FileOutputStream;<a name="line.4"></a>
+<FONT color="green">005</FONT>    import java.io.PrintStream;<a name="line.5"></a>
+<FONT color="green">006</FONT>    import java.util.ArrayList;<a name="line.6"></a>
+<FONT color="green">007</FONT>    import java.util.Collections;<a name="line.7"></a>
+<FONT color="green">008</FONT>    import java.util.HashMap;<a name="line.8"></a>
+<FONT color="green">009</FONT>    import java.util.List;<a name="line.9"></a>
+<FONT color="green">010</FONT>    import java.util.Map;<a name="line.10"></a>
+<FONT color="green">011</FONT>    import java.util.Set;<a name="line.11"></a>
+<FONT color="green">012</FONT>    import java.util.concurrent.ConcurrentHashMap;<a name="line.12"></a>
+<FONT color="green">013</FONT>    <a name="line.13"></a>
+<FONT color="green">014</FONT>    /**<a name="line.14"></a>
+<FONT color="green">015</FONT>     *<a name="line.15"></a>
+<FONT color="green">016</FONT>     * Methodology proposed in<a name="line.16"></a>
+<FONT color="green">017</FONT>     * "Factorization meets the neighborhood: a multifaceted collaborative filtering model"<a name="line.17"></a>
+<FONT color="green">018</FONT>     * Y. Koren. KDD 08<a name="line.18"></a>
+<FONT color="green">019</FONT>     * and further explained in<a name="line.19"></a>
+<FONT color="green">020</FONT>     * "Performance of recommender algorithms on top-N recommendation tasks"<a name="line.20"></a>
+<FONT color="green">021</FONT>     * P. Cremonesi, Y. Koren, R. Turrin. RecSys 2010<a name="line.21"></a>
+<FONT color="green">022</FONT>     *<a name="line.22"></a>
+<FONT color="green">023</FONT>     * It generates a ranking for each highly relevant item in the testing set,<a name="line.23"></a>
+<FONT color="green">024</FONT>     * using N additional random items<a name="line.24"></a>
+<FONT color="green">025</FONT>     *<a name="line.25"></a>
+<FONT color="green">026</FONT>     * @author Alejandro<a name="line.26"></a>
+<FONT color="green">027</FONT>     */<a name="line.27"></a>
+<FONT color="green">028</FONT>    public class TrecRecommenderEvaluatorUsingOneAndNItems extends TrecRecommenderEvaluatorUsingTestAndNItems {<a name="line.28"></a>
+<FONT color="green">029</FONT>    <a name="line.29"></a>
+<FONT color="green">030</FONT>        private float threshold;<a name="line.30"></a>
+<FONT color="green">031</FONT>    <a name="line.31"></a>
+<FONT color="green">032</FONT>        public TrecRecommenderEvaluatorUsingOneAndNItems(String itemsFile, int N, float threshold) {<a name="line.32"></a>
+<FONT color="green">033</FONT>            super(itemsFile, N);<a name="line.33"></a>
+<FONT color="green">034</FONT>            this.threshold = threshold;<a name="line.34"></a>
+<FONT color="green">035</FONT>        }<a name="line.35"></a>
+<FONT color="green">036</FONT>    <a name="line.36"></a>
+<FONT color="green">037</FONT>        public TrecRecommenderEvaluatorUsingOneAndNItems(String itemsFile, float threshold) {<a name="line.37"></a>
+<FONT color="green">038</FONT>            this(itemsFile, 500, threshold);<a name="line.38"></a>
+<FONT color="green">039</FONT>        }<a name="line.39"></a>
+<FONT color="green">040</FONT>    <a name="line.40"></a>
+<FONT color="green">041</FONT>        public TrecRecommenderEvaluatorUsingOneAndNItems(int N, float threshold) {<a name="line.41"></a>
+<FONT color="green">042</FONT>            this(null, N, threshold);<a name="line.42"></a>
+<FONT color="green">043</FONT>        }<a name="line.43"></a>
+<FONT color="green">044</FONT>    <a name="line.44"></a>
+<FONT color="green">045</FONT>        public TrecRecommenderEvaluatorUsingOneAndNItems(float threshold) {<a name="line.45"></a>
+<FONT color="green">046</FONT>            this(500, threshold);<a name="line.46"></a>
+<FONT color="green">047</FONT>        }<a name="line.47"></a>
+<FONT color="green">048</FONT>    <a name="line.48"></a>
+<FONT color="green">049</FONT>        @Override<a name="line.49"></a>
+<FONT color="green">050</FONT>        protected Map&lt;Long, Float&gt; getRelevantMap(long userID) {<a name="line.50"></a>
+<FONT color="green">051</FONT>            Map&lt;Long, Float&gt; map = super.getRelevantMap(userID);<a name="line.51"></a>
+<FONT color="green">052</FONT>            Map&lt;Long, Float&gt; m = new ConcurrentHashMap&lt;Long, Float&gt;();<a name="line.52"></a>
+<FONT color="green">053</FONT>            for (long i : map.keySet()) {<a name="line.53"></a>
+<FONT color="green">054</FONT>                if (map.get(i) &gt;= threshold) {<a name="line.54"></a>
+<FONT color="green">055</FONT>                    m.put(i, map.get(i));<a name="line.55"></a>
+<FONT color="green">056</FONT>                }<a name="line.56"></a>
+<FONT color="green">057</FONT>            }<a name="line.57"></a>
+<FONT color="green">058</FONT>            return m;<a name="line.58"></a>
+<FONT color="green">059</FONT>        }<a name="line.59"></a>
+<FONT color="green">060</FONT>    <a name="line.60"></a>
+<FONT color="green">061</FONT>        @Override<a name="line.61"></a>
+<FONT color="green">062</FONT>        protected void writeQrelFile(long userID, Map&lt;Long, Float&gt; relMap, String qrelFile) throws FileNotFoundException {<a name="line.62"></a>
+<FONT color="green">063</FONT>            PrintStream writerQrels = new PrintStream(new FileOutputStream(qrelFile, true));<a name="line.63"></a>
+<FONT color="green">064</FONT>            for (Map.Entry&lt;Long, Float&gt; e : relMap.entrySet()) {<a name="line.64"></a>
+<FONT color="green">065</FONT>                long itemID = e.getKey();<a name="line.65"></a>
+<FONT color="green">066</FONT>                int rel = e.getValue().intValue();<a name="line.66"></a>
+<FONT color="green">067</FONT>                // QUERY NAME = user + "_" + item<a name="line.67"></a>
+<FONT color="green">068</FONT>                writerQrels.println(userID + "_" + itemID + "\t0\t" + itemID + "\t" + rel);<a name="line.68"></a>
+<FONT color="green">069</FONT>            }<a name="line.69"></a>
+<FONT color="green">070</FONT>            writerQrels.close();<a name="line.70"></a>
+<FONT color="green">071</FONT>        }<a name="line.71"></a>
+<FONT color="green">072</FONT>    <a name="line.72"></a>
+<FONT color="green">073</FONT>        @Override<a name="line.73"></a>
+<FONT color="green">074</FONT>        protected synchronized void writeRanking(long userID, final Set&lt;Long&gt; relSet, final Map&lt;Long, Set&lt;Long&gt;&gt; notRelMap, final Map&lt;Long, Float&gt; userItemPreferenceMap, String recName, final PrintStream writer) {<a name="line.74"></a>
+<FONT color="green">075</FONT>            for (long rel : relSet) {<a name="line.75"></a>
+<FONT color="green">076</FONT>                final Map&lt;Float, Set&lt;Long&gt;&gt; preferenceMap = new HashMap&lt;Float, Set&lt;Long&gt;&gt;();<a name="line.76"></a>
+<FONT color="green">077</FONT>                // the value might be null if the estimated preference was NaN<a name="line.77"></a>
+<FONT color="green">078</FONT>                if (userItemPreferenceMap.get(rel) != null) {<a name="line.78"></a>
+<FONT color="green">079</FONT>                    addItemToRanking(rel, userItemPreferenceMap.get(rel), preferenceMap);<a name="line.79"></a>
+<FONT color="green">080</FONT>                    for (long notRel : notRelMap.get(rel)) {<a name="line.80"></a>
+<FONT color="green">081</FONT>                        // the value might be null if the estimated preference was NaN<a name="line.81"></a>
+<FONT color="green">082</FONT>                        if (userItemPreferenceMap.get(notRel) != null) {<a name="line.82"></a>
+<FONT color="green">083</FONT>                            addItemToRanking(notRel, userItemPreferenceMap.get(notRel), preferenceMap);<a name="line.83"></a>
+<FONT color="green">084</FONT>                        }<a name="line.84"></a>
+<FONT color="green">085</FONT>                    }<a name="line.85"></a>
+<FONT color="green">086</FONT>                    // Sort items by estimated preference<a name="line.86"></a>
+<FONT color="green">087</FONT>                    final List&lt;Float&gt; sortedScores = new ArrayList&lt;Float&gt;(preferenceMap.keySet());<a name="line.87"></a>
+<FONT color="green">088</FONT>                    Collections.sort(sortedScores, Collections.reverseOrder());<a name="line.88"></a>
+<FONT color="green">089</FONT>                    // Write estimated preferences<a name="line.89"></a>
+<FONT color="green">090</FONT>                    int pos = 1;<a name="line.90"></a>
+<FONT color="green">091</FONT>                    for (float pref : sortedScores) {<a name="line.91"></a>
+<FONT color="green">092</FONT>                        for (long itemID : preferenceMap.get(pref)) {<a name="line.92"></a>
+<FONT color="green">093</FONT>                            // QUERY NAME = user + "_" + item<a name="line.93"></a>
+<FONT color="green">094</FONT>                            writer.println(userID + "_" + rel + "\tQ0\t" + itemID + "\t" + pos + "\t" + pref + "\t" + "r");<a name="line.94"></a>
+<FONT color="green">095</FONT>                            pos++;<a name="line.95"></a>
+<FONT color="green">096</FONT>                        }<a name="line.96"></a>
+<FONT color="green">097</FONT>                        if (pos &gt; maxRankSize) {<a name="line.97"></a>
+<FONT color="green">098</FONT>                            break;<a name="line.98"></a>
+<FONT color="green">099</FONT>                        }<a name="line.99"></a>
+<FONT color="green">100</FONT>                    }<a name="line.100"></a>
+<FONT color="green">101</FONT>                }<a name="line.101"></a>
+<FONT color="green">102</FONT>            }<a name="line.102"></a>
+<FONT color="green">103</FONT>        }<a name="line.103"></a>
+<FONT color="green">104</FONT>    <a name="line.104"></a>
+<FONT color="green">105</FONT>        @Override<a name="line.105"></a>
+<FONT color="green">106</FONT>        public String getItemsFileName() {<a name="line.106"></a>
+<FONT color="green">107</FONT>            return getOutputFolder() + "nOneAndNItemsFile_" + N + "_th" + threshold + ".txt";<a name="line.107"></a>
+<FONT color="green">108</FONT>        }<a name="line.108"></a>
+<FONT color="green">109</FONT>    <a name="line.109"></a>
+<FONT color="green">110</FONT>        @Override<a name="line.110"></a>
+<FONT color="green">111</FONT>        public String toString() {<a name="line.111"></a>
+<FONT color="green">112</FONT>            return "UsingOneAndNItems_" + N + "_th" + threshold;<a name="line.112"></a>
+<FONT color="green">113</FONT>        }<a name="line.113"></a>
+<FONT color="green">114</FONT>    }<a name="line.114"></a>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+</PRE>
+</BODY>
+</HTML>

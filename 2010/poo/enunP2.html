@@ -1,0 +1,712 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html>
+<head>
+  <meta content="text/html; charset=ISO-8859-15"
+ http-equiv="content-type">
+  <link rel="STYLESHEET" href="poo.css">
+  <title>POO: Práctica 2</title>
+</head>
+<body>
+<!-- titulo de la practica y fechas de entrega -->
+
+<p class="cabecera">Programación Orientada a Objetos. Curso 2010/2011<span style="font-weight: bold;"><br>
+</span></p>
+<h1>Práctica 2. Clases y herencia</h1>
+<table style="text-align: left; width: 100%;" border="1" cellpadding="2"
+ cellspacing="2">
+  <tbody>
+    <tr>
+      <td style="vertical-align: top;">Calendario<br>
+      </td>
+      <td style="vertical-align: top;">Lunes<br>
+      </td>
+      <td style="vertical-align: top;">Martes<br>
+      </td>
+      <td style="vertical-align: top;">Miércoles<br>
+      </td>
+      <td style="vertical-align: top;">Jueves<br>
+      </td>
+      <td style="vertical-align: top;">Viernes<br>
+      </td>
+      <td style="vertical-align: top;">Observaciones<br>
+      </td>
+    </tr>
+    <tr>
+      <td style="vertical-align: top;">Inicio<br>
+      </td>
+      <td style="vertical-align: top;">07/03<br>
+      </td>
+      <td style="vertical-align: top;">08/03<br>
+      </td>
+      <td style="vertical-align: top;">09/03<br>
+      </td>
+      <td style="vertical-align: top;">03/03<br>
+      </td>
+      <td style="vertical-align: top;">04/03<br>
+      </td>
+      <td style="vertical-align: top;"><br>
+      </td>
+    </tr>
+    <tr>
+      <td style="vertical-align: top;">Evaluación<br>
+      </td>
+      <td style="vertical-align: top;">28/03<br>
+      </td>
+      <td style="vertical-align: top;">29/03<br>
+      </td>
+      <td style="vertical-align: top;">30/03<br>
+      </td>
+      <td style="vertical-align: top;">31/03<br>
+      </td>
+      <td style="vertical-align: top;">01/04<br>
+      </td>
+      <td style="vertical-align: top;">Entrega el día anterior.
+El grupo del lunes 2 horas antes del comienzo de la clase.<br>
+      </td>
+    </tr>
+  </tbody>
+</table>
+<p class="duracion"><br>
+</p>
+<h2>Objetivos</h2>
+<p>En esta práctica el alumno se formará en los siguientes conceptos y habilidades:</p>
+<ul>
+  <li>Definición e implementación de clases (variables, métodos, constructores, etc.), interfaces y elementos básicos de orientación a objetos, para el desarrollo
+      de un programa.
+  <li>Definición de jerarquías de clases, y manejo de los mecanismos asociados a las mismas: herencia, polimorfismo, jerarquía de tipos.
+  <li>Transición del diseño abstracto de un programa a una implementación completa.
+  <li>Utilización de librerías de clases desarrolladas por terceros.
+</ul>
+
+<h2>Descripción del proyecto</h2>
+
+<p>
+La práctica a desarrollar consistirá en diseñar e implementar completamente el <i>sistema de gestión de una tienda virtual</i> que sirvió como base en la
+práctica 1. El alumno podrá partir del diagrama de clases suministrado en la práctica anterior, pero deberá realizar su propio diagrama de clases adaptado a
+la funcionalidad requerida en esta práctica, con la restricción de que las clases desarrolladas deberán implementar el conjunto
+de <a href="P2.zip" target="blank">interfaces facilitadas por los profesores</a>. Se valorará un diseño que aplique adecuadamente los principios de orientación a objetos (jerarquías de clase, modularidad, etc.) y haga un uso
+adecuado de las clases de la librería estándar de Java. El diagrama de clases diseñado deberá entregarse como parte de la documentación de la práctica. 
+</p>
+<p>
+Además de los anteriores, otro de los objetivos de esta práctica es familiarizar al alumno con uno de los aspectos fundamentales relacionados con la orientación a
+objetos en general y el mundo Java en particular, la reutilización de librerías. En este sentido, el almacenamiento de todos los datos de la tienda se realizará en
+formato XML, utilizando para ello la librería <a href="http://www.jdom.org/" target="blank">JDOM</a>.
+</p>
+<p>
+El sistema a implementar consistirá en una aplicación que simulará el comportamiento de una tienda online que venderá
+distintos tipos de artículos (en el ejemplo a implementar libros, discos y películas). Se ejecutará como
+un proceso local que trabajará con el fichero XML que se le pase como parámetro en la llamada. En este fichero se almacenarán
+los datos de los artículos gestionados por la tienda, así como la información de los clientes registrados. Los ficheros XML
+con los que trabajará la aplicación tendrán la misma estructura del <a href="tienda.xml">fichero XML de prueba proporcionado</a>,
+aunque en caso de ser necesario esta estructura se podrá <b>ampliar</b> (siempre que no se modifique la estructura dada). Los
+cambios que se realicen en los datos de la tienda durante la ejecución deberán ser persistentes entre ejecuciones, es decir, que
+los cambios realizados deberán verse reflejados en el fichero XML.
+</p>
+<p>
+Existirán dos posibles perfiles de usuario:
+<ul>
+	<li>Un perfil <i>administrador</i> que se encargará de gestionar el almacén.
+	<li>Y un perfil <i>cliente</i> que será el que realice las compras en la tienda.
+</ul>
+<b>NOTA</b>: No será necesario implementar un sistema de gestión de acceso para identificar el rol de cada usuario. Será
+suficiente con implementar mains distintos para cada uno de los perfiles. 
+</ul>
+<p>
+Las posibles acciones para el administrador serán, al menos, las siguientes:
+<ul>
+	<li>Mostrar el inventario completo de la tienda/almacén ordenados por id de artículo
+	<li>Mostrar el inventario de un tipo de artículo concreto ordenado por descripción de artículo
+	<li>Realizar búsquedas de artículos
+	<li>Aumentar el stock de un artículo
+	<li>Mostrar el listado de clientes de la tienda
+</ul>
+
+<b>NOTA</b>: No será necesario implementar un mecanismo de creación de nuevos artículos, esto se podrá hacer manualmente en el fichero XML.
+</p>
+
+<p>
+Por su parte, las acciones para los clientes serán, al menos:
+<ul>
+	<li>Registrarse como usuario en la tienda tal y como se describe más adelante.
+	<li>Aumentar su saldo para compras.
+	<li>Realizar búsquedas de artículos concretos (queda a disposición del alumno el definir los mecanismos de búsqueda que proporcionará la aplicación).
+	<li>Añadir y eliminar artículos de su carrito de la compra
+	<li>Comprar los artículos que ha añadido al carrito (si no hay saldo suficiente a la hora de realizar la compra ésta no será posible)
+	<li>Visualizar su histórico de compras entre dos fechas dadas
+</ul>
+</p>
+<p>
+En la tienda de prueba que se implementará se gestionarán al menos tres posibles tipos de artículos: libros, discos y películas. Cada uno de ellos tendrá los siguientes
+atributos:
+<ul>
+	<li><i>Libro</i>: id interno, título, autor, editorial.
+	<li><i>Disco</i>: id interno, título, intérprete, año de publicación.
+	<li><i>Película</i>: id interno, título, género, director, actores.
+</ul>
+<b>NOTA:</b> El id interno no podrá estar duplicado.
+</p>
+<p>
+Al final del enunciado se facilitan un conjunto de mains de prueba, junto con sus salidas esperadas, para chequear algunas de las funcionalidades de la tienda. Es responsabilidad de los alumnos el diseñar y entregar tests adicionales para chequear la funcionalidad completa (búsquedas, historiales de ventas, escritura del fichero XML, etc.).
+</p>
+<h2>Material de referencia</h2>
+<p>
+	<li>Enlace al <a href="http://argouml.tigris.org/" target="blank">sitio de descarga</a> de ArgoUML, herramienta para generar el diagrama de clases de la práctica.
+</p>
+<p>
+	<li><a href="P2.zip" target="blank">Proyecto Netbeans</a> con el conjunto de interfaces suministradas por los profesores.
+</p>
+<p>
+	<li>Se deja intencionadamente al alumno la labor de buscar y entender el manejo de la librería JDOM, así como la documentación de esta librería, naturalmente con
+		la asistencia de los profesores en las clases de laboratorio. Como ayuda al uso de esta librería se proporciona un <a href="ejemplo-jdom.zip">ejemplo</a>  muy
+		simple de uso de esta librería para leer un fichero XML.
+</p>
+
+<h2>Apéndice. Mains de prueba</h2>
+<ul>
+	<li><h3>Inventario de la tienda</h3>
+	
+	<ul>
+	<li><h4>Tester</h4>
+	<pre>
+package es.uam.eps.poo.test;
+
+import java.io.IOException;
+import org.jdom.JDOMException;
+
+import org.jdom.input.SAXBuilder;
+
+import es.uam.eps.poo.impl.Tienda;
+import es.uam.eps.poo.libreria.Libreria;
+import es.uam.eps.poo.error.ArticuloNoValido;
+import es.uam.eps.poo.error.ClienteDuplicado;
+import es.uam.eps.poo.error.IncrementoNoValido;
+
+/**
+ *
+ * @author Profesores POO
+ */
+public class MostrarInventario {
+
+    public static void main(String[] args) throws IOException, JDOMException, ClassNotFoundException, InstantiationException, IllegalAccessException, ArticuloNoValido, IncrementoNoValido, ClienteDuplicado
+    {
+    	SAXBuilder parser = new SAXBuilder();
+    	Tienda tienda = new Libreria(parser.build ("datos/tienda.xml"));
+        
+    	tienda.mostrarInventario((short) 0);
+    	System.out.println("");
+    	tienda.mostrarInventario((short) 1);
+    	System.out.println("");
+    	tienda.mostrarInventario((short) 2);
+    	System.out.println("");
+    	tienda.mostrarInventario((short) 3);
+    }
+}
+	</pre>
+	<li><h4>Salida esperada</h4>
+	<pre>
+Tienda virtual de prueba (inventario 0)
+-----------------------------------------------------------
+[01] LIBRO: La historia interminable. Ende, Michael. Ed. Alfaguara, 26,50  + iva (1 disponibles)
+[02] LIBRO: El hobbit. Tolkien, J.R.R. Ed. Minotauro, 20,10  + iva (6 disponibles)
+[03] DISCO: Bon Jovi - Crush (2000), 10,25  + iva (17 disponibles)
+[05] DISCO: Melendi - Sin noticias de Holanda (2003), 6,00  + iva (10 disponibles)
+[06] LIBRO: El hereje. Delibes, Miguel. Ed. Planeta DeAgostini, 30,00  + iva (4 disponibles)
+[09] PELICULA. 300 (Fantastica). Dir: Zack Snyder. Int: Gerard Butler-Lena Heady-David Wenham, 8,50  + iva (7 disponibles)
+[10] PELICULA. Identidad (Thriller). Dir: James Mangold. Int: John Cusack-Ray Liotta-Amanda Peet, 9,00  + iva (2 disponibles)
+[12] DISCO: Evanescence - Fallen (2003), 9,00  + iva (0 disponibles)
+[20] PELICULA. Gladiator (Drama). Dir: Ridley Scott. Int: Russell Crowe-Joaquin Phoenix-Connie Nielsen, 18,00  + iva (3 disponibles)
+[21] PELICULA. Gladiator, extendida (Drama). Dir: Ridley Scott. Int: Russell Crowe-Joaquin Phoenix-Connie Nielsen, 10,00  + iva (1 disponibles)
+[25] DISCO: Melendi - Que el cielo espere sentao (2005), 6,00  + iva (3 disponibles)
+[26] LIBRO: El gen egoista. Dawkins, Richard. Ed. Salvat, 27,85  + iva (2 disponibles)
+[32] PELICULA. Cadena Perpetua (Drama). Dir: Frank Darabont. Int: Tim Robbins-Morgan Freeman, 5,00  + iva (12 disponibles)
+
+Tienda virtual de prueba (inventario 1)
+-----------------------------------------------------------
+[26] LIBRO: El gen egoista. Dawkins, Richard. Ed. Salvat, 27,85  + iva (2 disponibles)
+[06] LIBRO: El hereje. Delibes, Miguel. Ed. Planeta DeAgostini, 30,00  + iva (4 disponibles)
+[02] LIBRO: El hobbit. Tolkien, J.R.R. Ed. Minotauro, 20,10  + iva (6 disponibles)
+[01] LIBRO: La historia interminable. Ende, Michael. Ed. Alfaguara, 26,50  + iva (1 disponibles)
+
+Tienda virtual de prueba (inventario 2)
+-----------------------------------------------------------
+[03] DISCO: Bon Jovi - Crush (2000), 10,25  + iva (17 disponibles)
+[12] DISCO: Evanescence - Fallen (2003), 9,00  + iva (0 disponibles)
+[25] DISCO: Melendi - Que el cielo espere sentao (2005), 6,00  + iva (3 disponibles)
+[05] DISCO: Melendi - Sin noticias de Holanda (2003), 6,00  + iva (10 disponibles)
+
+Tienda virtual de prueba (inventario 3)
+-----------------------------------------------------------
+[09] PELICULA. 300 (Fantastica). Dir: Zack Snyder. Int: Gerard Butler-Lena Heady-David Wenham, 8,50  + iva (7 disponibles)
+[32] PELICULA. Cadena Perpetua (Drama). Dir: Frank Darabont. Int: Tim Robbins-Morgan Freeman, 5,00  + iva (12 disponibles)
+[20] PELICULA. Gladiator (Drama). Dir: Ridley Scott. Int: Russell Crowe-Joaquin Phoenix-Connie Nielsen, 18,00  + iva (3 disponibles)
+[21] PELICULA. Gladiator, extendida (Drama). Dir: Ridley Scott. Int: Russell Crowe-Joaquin Phoenix-Connie Nielsen, 10,00  + iva (1 disponibles)
+[10] PELICULA. Identidad (Thriller). Dir: James Mangold. Int: John Cusack-Ray Liotta-Amanda Peet, 9,00  + iva (2 disponibles)
+	</pre>
+</ul>
+	
+	<li><h3>Registro de usuarios</h3>
+	
+	<ul>
+	<li><h4>Tester</h4>
+	<pre>
+package es.uam.eps.poo.test;
+
+import java.io.IOException;
+
+import org.jdom.JDOMException;
+
+import org.jdom.input.SAXBuilder;
+
+import es.uam.eps.poo.impl.Cliente;
+import es.uam.eps.poo.impl.Tienda;
+import es.uam.eps.poo.libreria.Libreria;
+import es.uam.eps.poo.error.ArticuloNoValido;
+import es.uam.eps.poo.error.ClienteDuplicado;
+import es.uam.eps.poo.error.IncrementoNoValido;
+
+/**
+ *
+ * @author Profesores POO
+ */
+public class RegistrarUsuario {
+
+    public static void main(String[] args) throws IOException, JDOMException, ClassNotFoundException, InstantiationException, IllegalAccessException, ArticuloNoValido, IncrementoNoValido, ClienteDuplicado
+    {
+    	try {
+	    	SAXBuilder parser = new SAXBuilder();
+	    	Tienda tienda = new Libreria(parser.build ("datos/tienda.xml"));
+	    	
+	    	tienda.mostrarClientes();
+	    	
+	    	System.out.println("\n\n\n Registro de nuevo usuario...\n\n");
+	    	tienda.aniadirCliente(new Cliente("0000011", "Carmen", "Perez", 0));
+	    	tienda.mostrarClientes();
+	    	
+	    	System.out.println("\n\n\n Registro de un usuario ya existente...\n\n");
+	    	tienda.aniadirCliente(new Cliente("0000001", "Mario", "Jimenez", 0));
+	    	tienda.mostrarClientes();
+    	}
+    	catch(ClienteDuplicado err) {
+    		System.out.println(err);
+    	}
+    }
+}
+	</pre>
+	<li><h4>Salida esperada</h4>
+	<pre>
+Tienda virtual de prueba (clientes)
+-------------------------------------------------------------
+[0000001]  Lopez, Jose   	Saldo actual: 300,00 
+[0001002]  Martinez, Pedro   	Saldo actual: 20,40 
+
+
+
+-> Registro de nuevo usuario (0000011)...
+
+
+Tienda virtual de prueba (clientes)
+-------------------------------------------------------------
+[0000001]  Lopez, Jose   	Saldo actual: 300,00 
+[0000011]  Perez, Carmen   	Saldo actual: 0,00 
+[0001002]  Martinez, Pedro   	Saldo actual: 20,40 
+
+
+
+Registro de un usuario ya existente (0000001)...
+
+
+Error al registrar el Cliente. Cliente ya registrado: 0000001
+	</pre>
+</ul>	
+	<li><h3>Gestión del stock del almacén</h3>
+	
+	<ul>
+	<li><h4>Tester</h4>
+	<pre>
+package es.uam.eps.poo.test;
+
+import java.io.IOException;
+
+import org.jdom.JDOMException;
+
+import org.jdom.input.SAXBuilder;
+
+import es.uam.eps.poo.Articulo;
+import es.uam.eps.poo.impl.Tienda;
+import es.uam.eps.poo.libreria.Libreria;
+import es.uam.eps.poo.error.ArticuloNoValido;
+import es.uam.eps.poo.error.ClienteDuplicado;
+import es.uam.eps.poo.error.IncrementoNoValido;
+
+/**
+ *
+ * @author Profesores POO
+ */
+public class AumentarStock {
+
+    public static void main(String[] args) throws IOException, JDOMException, ClassNotFoundException, InstantiationException, IllegalAccessException, ArticuloNoValido, IncrementoNoValido, ClienteDuplicado
+    {
+    	SAXBuilder parser = new SAXBuilder();
+    	Tienda tienda = new Libreria(parser.build ("datos/tienda.xml"));
+    	Articulo articulo = tienda.getArticulos().get(5);
+    	
+    	tienda.mostrarStock(articulo);
+    	tienda.aniadirStock(articulo, 4);
+    	tienda.mostrarStock(articulo);
+    }
+}
+	</pre>
+	<li><h4>Salida esperada</h4>
+	<pre>
+[09] PELICULA. 300 (Fantastica). Dir: Zack Snyder. Int: Gerard Butler-Lena Heady-David Wenham, 8,50  + iva (7 disponibles)
+[09] PELICULA. 300 (Fantastica). Dir: Zack Snyder. Int: Gerard Butler-Lena Heady-David Wenham, 8,50  + iva (11 disponibles)
+	</pre>
+</ul>	
+	<li><h3>Gestión del saldo de un cliente</h3>
+	
+	<ul>
+	<li><h4>Tester</h4>
+	<pre>
+package es.uam.eps.poo.test;
+
+import java.io.IOException;
+
+import org.jdom.JDOMException;
+
+import org.jdom.input.SAXBuilder;
+
+import es.uam.eps.poo.Cliente;
+import es.uam.eps.poo.impl.Tienda;
+import es.uam.eps.poo.libreria.Libreria;
+import es.uam.eps.poo.error.ArticuloNoValido;
+import es.uam.eps.poo.error.ClienteDuplicado;
+import es.uam.eps.poo.error.IncrementoNoValido;
+
+/**
+ *
+ * @author Profesores POO
+ */
+public class AumentarSaldo {
+
+    public static void main(String[] args) throws IOException, JDOMException, ClassNotFoundException, InstantiationException, IllegalAccessException, ArticuloNoValido, IncrementoNoValido, ClienteDuplicado
+    {
+    	SAXBuilder parser = new SAXBuilder();
+    	Tienda tienda = new Libreria(parser.build ("datos/tienda.xml"));
+    	Cliente cliente = tienda.getCliente("0001002");
+    	    	
+    	System.out.println(cliente);
+    	cliente.aumentarSaldo(232.46);
+    	System.out.println(cliente);
+    }
+}
+	</pre>
+	<li><h4>Salida esperada</h4>
+	<pre>
+[0001002]  Martinez, Pedro   	Saldo actual: 20,40 
+[0001002]  Martinez, Pedro   	Saldo actual: 252,86 
+	</pre>
+</ul>	
+	<li><h3>Gestión del carrito de un cliente</h3>
+	
+	<ul>
+	<li><h4>Tester</h4>
+	<pre>
+package es.uam.eps.poo.test;
+
+import java.io.IOException;
+import java.util.List;
+
+import org.jdom.JDOMException;
+
+import org.jdom.input.SAXBuilder;
+
+import es.uam.eps.poo.Articulo;
+import es.uam.eps.poo.Cliente;
+import es.uam.eps.poo.Tienda;
+import es.uam.eps.poo.libreria.Libreria;
+import es.uam.eps.poo.error.ArticuloNoValido;
+import es.uam.eps.poo.error.ClienteDuplicado;
+import es.uam.eps.poo.error.IncrementoNoValido;
+import es.uam.eps.poo.error.SaldoInsuficiente;
+
+/**
+ *
+ * @author Profesores POO
+ */
+public class GestionarCarrito {
+
+	private static Tienda tienda;
+	private static Cliente cliente;
+	private static List<Articulo> articulos;
+	
+	private static void obtenerDatos()
+	{
+		cliente = tienda.getCliente("0001002");
+    	articulos = tienda.getArticulos();
+	}
+	
+    public static void main(String[] args) throws IOException, JDOMException, ClassNotFoundException, InstantiationException, IllegalAccessException, ArticuloNoValido, IncrementoNoValido, ClienteDuplicado
+    {
+    	SAXBuilder parser = new SAXBuilder();
+    	tienda = new Libreria(parser.build ("datos/tienda.xml"));
+    	
+    	obtenerDatos();    
+    	System.out.println("Cliente con el que se va a probar");
+    	System.out.println("---------------------------------");
+    	System.out.println(cliente);
+    	System.out.println("\nProductos con los que se va a probar");
+    	System.out.println("------------------------------------");
+    	tienda.mostrarStock(articulos.get(5));
+    	tienda.mostrarStock(articulos.get(2));
+    	tienda.mostrarStock(articulos.get(3));
+    	
+    	// Se rellena el carrito con los productos 2, 3 y 5 de la lista
+    	cliente.meterAlCarrito(articulos.get(5), 2);
+    	cliente.meterAlCarrito(articulos.get(2), 1);
+    	cliente.meterAlCarrito(articulos.get(5), 1);
+    	cliente.meterAlCarrito(articulos.get(3), 1);
+    	System.out.println("");
+    	cliente.mostrarCarrito();
+    	
+    	// Se intenta realizar la venta
+    	try {
+    		System.out.println("\n\n-> Intentando realizar la venta...\n\n");
+    		System.out.println(tienda.venderCarrito(cliente));
+    	
+    		System.out.println("Datos del cliente tras la venta");
+    		System.out.println("-------------------------------");
+        	System.out.println(cliente);
+        	System.out.println("\nDatos de los productos tras la venta");
+        	System.out.println("-----------------------------------");
+        	tienda.mostrarStock(articulos.get(5));
+        	tienda.mostrarStock(articulos.get(2));
+        	tienda.mostrarStock(articulos.get(3));
+    	}
+    	catch(SaldoInsuficiente err) {
+    		System.out.println("No ha sido posible realizar la venta: Saldo insuficiente");
+    	}
+    	
+    	// Se sacan productos del carrito
+    	System.out.println("\n\nEliminando productos del carrito...");
+    	cliente.sacarDelCarrito(articulos.get(5));
+    	System.out.println("");
+    	cliente.mostrarCarrito();
+
+    	// Se intenta realizar la venta
+    	try {
+    		System.out.println("\n\n-> Intentando realizar la venta...\n\n");
+    		System.out.println(tienda.venderCarrito(cliente));
+    	
+    		System.out.println("Datos del cliente tras la venta");
+    		System.out.println("-------------------------------");
+        	System.out.println(cliente);
+        	System.out.println("\nDatos de los productos tras la venta");
+        	System.out.println("-----------------------------------");
+        	tienda.mostrarStock(articulos.get(5));
+        	tienda.mostrarStock(articulos.get(2));
+        	tienda.mostrarStock(articulos.get(3));
+    	}
+    	catch(SaldoInsuficiente err) {
+    		System.out.println("-> No ha sido posible realizar la venta: Saldo insuficiente");
+    	}
+    	
+    	// Se carga la cuenta del cliente y se intenta realizar una nueva venta
+    	cliente.aumentarSaldo(1000.0);
+    	System.out.println("\n\nDatos del cliente tras la recarga");
+		System.out.println("---------------------------------");
+		System.out.println(cliente);
+		
+		cliente.meterAlCarrito(articulos.get(5), 3);
+    	cliente.meterAlCarrito(articulos.get(2), 2);
+    	cliente.meterAlCarrito(articulos.get(3), 11);
+    	System.out.println("");
+    	cliente.mostrarCarrito();
+    	
+    	// Se intenta realizar la venta
+    	try {
+    		System.out.println("\n\n-> Intentando realizar la venta...\n\n");
+    		System.out.println(tienda.venderCarrito(cliente));
+    	
+    		System.out.println("Datos del cliente tras la venta");
+    		System.out.println("-------------------------------");
+        	System.out.println(cliente);
+        	System.out.println("\nDatos de los productos tras la venta");
+        	System.out.println("-----------------------------------");
+        	tienda.mostrarStock(articulos.get(5));
+        	tienda.mostrarStock(articulos.get(2));
+        	tienda.mostrarStock(articulos.get(3));
+    	}
+    	catch(SaldoInsuficiente err) {
+    		System.out.println("-> No ha sido posible realizar la venta: Saldo insuficiente");
+    	}
+
+    }
+}
+	</pre>
+	<li><h4>Salida esperada</h4>
+	<pre>
+Cliente con el que se va a probar
+---------------------------------
+[0001002]  Martinez, Pedro   	Saldo actual: 20,40 
+
+Productos con los que se va a probar
+------------------------------------
+[09] PELICULA. 300 (Fantastica). Dir: Zack Snyder. Int: Gerard Butler-Lena Heady-David Wenham, 8,50  + iva (7 disponibles)
+[03] DISCO: Bon Jovi - Crush (2000), 10,25  + iva (17 disponibles)
+[05] DISCO: Melendi - Sin noticias de Holanda (2003), 6,00  + iva (10 disponibles)
+
+Carrito de Pedro Martinez
+-------------------------------------------------------------
+[09] PELICULA. 300 (Fantastica). Dir: Zack Snyder. Int: Gerard Butler-Lena Heady-David Wenham, 8,50  + iva
+	3 unidades	Coste unitario: 10,03 	Coste total: 30,09 
+
+[03] DISCO: Bon Jovi - Crush (2000), 10,25  + iva
+	1 unidades	Coste unitario: 12,09 	Coste total: 12,09 
+
+[05] DISCO: Melendi - Sin noticias de Holanda (2003), 6,00  + iva
+	1 unidades	Coste unitario: 7,08 	Coste total: 7,08 
+
+
+
+-> Intentando realizar la venta...
+
+
+No ha sido posible realizar la venta: Saldo insuficiente
+
+
+Eliminando productos del carrito...
+
+Carrito de Pedro Martinez
+-------------------------------------------------------------
+[03] DISCO: Bon Jovi - Crush (2000), 10,25  + iva
+	1 unidades	Coste unitario: 12,09 	Coste total: 12,09 
+
+[05] DISCO: Melendi - Sin noticias de Holanda (2003), 6,00  + iva
+	1 unidades	Coste unitario: 7,08 	Coste total: 7,08 
+
+
+
+-> Intentando realizar la venta...
+
+
+TICKET DE VENTA
+-------------------
+
+Productos vendidos correctamente:
+---------------------------------
+[03] DISCO: Bon Jovi - Crush (2000), 10,25  + iva
+	1 unidades	Coste unitario: 12,09 	Coste total: 12,09 
+
+[05] DISCO: Melendi - Sin noticias de Holanda (2003), 6,00  + iva
+	1 unidades	Coste unitario: 7,08 	Coste total: 7,08 
+
+
+
+___________________________________________________ Importe: 19,17 
+
+
+Datos del cliente tras la venta
+-------------------------------
+[0001002]  Martinez, Pedro   	Saldo actual: 1,23 
+
+Datos de los productos tras la venta
+-----------------------------------
+[09] PELICULA. 300 (Fantastica). Dir: Zack Snyder. Int: Gerard Butler-Lena Heady-David Wenham, 8,50  + iva (7 disponibles)
+[03] DISCO: Bon Jovi - Crush (2000), 10,25  + iva (16 disponibles)
+[05] DISCO: Melendi - Sin noticias de Holanda (2003), 6,00  + iva (9 disponibles)
+
+
+Datos del cliente tras la recarga
+---------------------------------
+[0001002]  Martinez, Pedro   	Saldo actual: 1.001,22 
+
+Carrito de Pedro Martinez
+-------------------------------------------------------------
+[09] PELICULA. 300 (Fantastica). Dir: Zack Snyder. Int: Gerard Butler-Lena Heady-David Wenham, 8,50  + iva
+	3 unidades	Coste unitario: 10,03 	Coste total: 30,09 
+
+[03] DISCO: Bon Jovi - Crush (2000), 10,25  + iva
+	2 unidades	Coste unitario: 12,09 	Coste total: 24,19 
+
+[05] DISCO: Melendi - Sin noticias de Holanda (2003), 6,00  + iva
+	11 unidades	Coste unitario: 7,08 	Coste total: 77,88 
+
+
+
+-> Intentando realizar la venta...
+
+
+TICKET DE VENTA
+-------------------
+
+Productos vendidos correctamente:
+---------------------------------
+[09] PELICULA. 300 (Fantastica). Dir: Zack Snyder. Int: Gerard Butler-Lena Heady-David Wenham, 8,50  + iva
+	3 unidades	Coste unitario: 10,03 	Coste total: 30,09 
+
+[03] DISCO: Bon Jovi - Crush (2000), 10,25  + iva
+	2 unidades	Coste unitario: 12,09 	Coste total: 24,19 
+
+
+Productos de los que no hay stock suficiente:
+---------------------------------------------
+[05] DISCO: Melendi - Sin noticias de Holanda (2003), 6,00  + iva
+	11 unidades	Coste unitario: 7,08 	Coste total: 77,88 
+
+
+
+___________________________________________________ Importe: 54,28 
+
+
+Datos del cliente tras la venta
+-------------------------------
+[0001002]  Martinez, Pedro   	Saldo actual: 946,94 
+
+Datos de los productos tras la venta
+-----------------------------------
+[09] PELICULA. 300 (Fantastica). Dir: Zack Snyder. Int: Gerard Butler-Lena Heady-David Wenham, 8,50  + iva (4 disponibles)
+[03] DISCO: Bon Jovi - Crush (2000), 10,25  + iva (14 disponibles)
+[05] DISCO: Melendi - Sin noticias de Holanda (2003), 6,00  + iva (9 disponibles)
+	</pre>
+</ul>
+</ul>
+
+
+<h2>Entrega</h2>
+<p>Las prácticas se deben entregar antes de la fecha de
+evaluación indicada al comienzo del enunciado, teniendo en
+cuenta las horas límite
+de entrega mencionadas en las <a href="../normas.html#entrega">normas</a>
+de la asignatura.<br>
+</p>
+<p>El fichero <span style="font-style: italic;">.zip</span>
+a entregar debe incluir:</p>
+<ul>
+  <li>un <span style="font-style: italic;">leeme.txt</span> que
+describa los ficheros incluidos en el <span style="font-style: italic;">.zip</span>.</li>
+  <li>el <span style="font-style: italic;">build.xml</span> usado para
+compilar y ejecutar la práctica (generado por netbeans o creado
+manualmente).<br>
+  </li>
+  <li>una <span style="font-style: italic;">memoria</span> en pdf<span
+ style="font-style: italic;"></span><span style="font-style: italic;"></span>
+y un directorio javadoc con la documentación generada para cada
+clase.</li>
+  <li>y <span style="font-style: italic;">los fuentes</span>, en un
+directorio llamado "src" con la estructura de directorios necesaria
+para que, descomprimiendo el <span style="font-style: italic;">.zip</span>
+entregado y escribiendo "ant run" (es decir, ejecutando el "<span
+ style="font-style: italic;">build.xml</span>" includido en el <span
+ style="font-style: italic;">.zip</span>), la práctica se
+compile y
+ejecute correctamente los casos de prueba.</li>
+</ul>
+<p><span style="font-weight: bold;">NOTA:</span>
+Las entregas que no cumplan los requisitos enumerados en las normas
+recibirán una penalización de 0.5 puntos.</p>
+
+<span class="copyright">(C) 2010-2011 Escuela Politécnica
+Superior, UAM</span><br>
+<br>
+</body>
+</html>

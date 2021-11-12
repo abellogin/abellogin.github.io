@@ -1,0 +1,132 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html><head>
+
+
+  <meta http-equiv="content-type" content="text/html; charset=ISO-8859-15">
+  <link rel="STYLESHEET" href="poo.css">
+  <title>POO: Práctica 4</title>
+</head><body>
+<!-- titulo de la practica y fechas de entrega -->
+<p class="cabecera">Programación Orientada a Objetos. Curso 08/09</p>
+<h1>Material y documentación adicional de la práctica 4<br>
+</h1>
+<h2>Material<br>
+</h2>
+<p>Para la realización de esta práctica se aconseja partir de los
+siguientes ejemplos:</p>
+<p>Servidor de Ejemplo: <a href="servidor.zip">servidor.zip</a><br>
+Ejemplo de aplicación web: <a href="webApplication.zip">webApplication.zip</a><br>
+</p>
+<h2>Descripción del contenido</h2>
+<br>
+<p>Ambos archivos contienen la definición de un proyecto netbeans y el
+script de Ant build.xml<br>
+</p>
+<p>En Servidor.zip se incluyen las siguientes clases java (cliente /
+servidor RMI)<br>
+</p>
+<ul>
+  <li>es.uam.eps.poo.remote.AsignaturaRemota: Interfaz remota de
+ejemplo, que representa una asignatura<br>
+  </li>
+  <li>es.uam.eps.poo.remote.SistemaRemoto: Inferfaz remota del sistema,
+que se ha de ampliar para añadir los métodos necesarios para completar
+la práctica</li>
+  <li>es.uam.es.poo.remote.test.ImplSistemaRemoto: Implementación de un
+sistema que cumple la interfaz SistemaRemoto. Solo para pruebas.<br>
+  </li>
+  <li>es.uam.es.poo.remote.test.Server: Ejemplo de servidor, que
+registra el sistema de prueba. Se puede utilizar como plantilla para
+crear el servidor final.</li>
+  <li>es.uam.es.poo.remote.test.ClientePrueba: Ejemplo de cliente para
+probar la conexión al servidor.</li>
+  <li>Paquete es.uam.es.poo.beans: Paquete con las clases que cargan
+las asignaturas. Es el mismo de la práctica 2, donde se ha modificado
+la clase Asignatura para que puede ser utilizada de forma remota,
+implementando la interfaz AsignaturaRemota.</li>
+</ul>
+<p>En webApplication.zip se incluyen los siguientes archivos (Interfaz
+de usuario web JSF)<br>
+</p>
+<ul>
+  <li>Ejemplos de Beans de respaldo (paquete es.uam.poo.jsf)<br>
+  </li>
+  <ul>
+    <li>SistemaJSF: Bean de respaldo para el sistema. Su ámbito es toda
+la aplicación, de forma que se puede utilizar en cualquier página<br>
+    </li>
+    <li>AsignaturaJSF: Bean de respaldo de las páginas que trabajan con
+asignatura</li>
+  </ul>
+  <li>Ejemplos de páginas JSF:</li>
+  <ul>
+    <li>welcomeJSF.jsp: Página de inicio</li>
+    <li>asignaturas.jsp: Página que pide el nombre de una asignatura</li>
+    <li>informeAsignatura.jsp: Página que muestra un informe de la
+asignatura</li>
+  </ul>
+  <li>Configuración JSF: faces-config.xml</li>
+  <ul>
+    <li>Incluye la siguiente información:<br>
+    </li>
+  </ul>
+  <ul>
+    <ul>
+      <li>Reglas de navegación entre las distintas páginas web de
+ejemplo suministradas<br>
+      </li>
+      <li>Descripción de los beans de respaldo de ejemplo, incluyendo
+el nombre, clase y ámbito</li>
+    </ul>
+  </ul>
+</ul>
+<h2>Instrucciones de instalación</h2>
+<p>Para el cliente y servidor RMI no es necesario ninguna acción
+especial. No es necesario inicar el proceso rmiregistry, ya que en el
+ejemplo de servidor suministrado se crear un registro en un puerto
+especial para su uso exclusivo en esta aplicación.<br>
+La política de segurida java podría impedir las conexión al servidor
+local. Para solucionarlo se puede añadir una política menos restrictiva
+usando policytool. Por ejemplo:<br>
+grant {&nbsp; <br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; permission
+java.net.SocketPermission "*:1024-65535",
+"connect,accept,listen,resolve";<br>
+};<br>
+<br>
+</p>
+<p>Para facilitar el desarrollo en Netbeans de la aplicación web se han
+de instalar los siguientes plugins :<br>
+(netbeans -&gt; tools -&gt; plugins -&gt; available plugins)<br>
+</p>
+<ul>
+  <li>JSF</li>
+  <li>Tomcat</li>
+  <li>Web Applications</li>
+  <li>Visual Web JSF backward compatibility kit</li>
+</ul>
+<p>Además se ha de añadir el servidor Tomcat 5.0 (o la versión
+instalada) a Netbeans. (tools -&gt; servers -&gt; add). En el
+laboratorio de prácticas Catalina Home está en "c:\tomcat50-jwsdp), en
+otros casos se ha de indicar el directorio de instalación. El usuario
+en la versión del laboratorio es "tomcat", al igual que la clave. Para
+que la aplicación web pueda acceder correctamente al servidor
+mediante RMI se ha de dejar desactivado el gestor de seguridad al
+añadir el servidor tomcat a Netbeans (valor por omisión). </p>
+<p>Si se instala tomcat desde cero, es necesario añadir los roles de
+admin y manager al usuario tomcat, modificando el fichero
+tomcat-users.xml.<br>
+En unix puede haber problemas si se instala tomcat con el gestor de
+aplicaciones del sistema, ya que netbeans accede directamente a los
+archivos de tomcat, y esto puede originar conflictos con los permisos.
+En este caso se recomienda descargar la versión 5.5 de tomcat y
+descomprimirla en el directorio personal, en lugar de instalarlo a
+nivel de sistema.<br>
+</p>
+<p>En el caso de crear un proyecto nuevo, en lugar de usar el proyecto
+de ejemplo suministrado, se ha de elegir como tipo de proyecto web-&gt;
+Web Aplication, y como Framework: Java Server Faces.<br>
+</p>
+<p> </p>
+<span class="copyright">(C) 2008-2009 Escuela Politécnica Superior, UAM</span>
+</body></html>

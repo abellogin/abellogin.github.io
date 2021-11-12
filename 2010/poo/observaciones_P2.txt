@@ -1,0 +1,25 @@
+
+ - Las carpetas y ficheros que hay que entregar son los siguientes:
+	build.xml
+	leeme.txt
+	manifest.mf
+	memoria.pdf
+	datos/*
+	javadoc/*
+	lib/jdom.jar
+	nbproject/*
+	src/*
+   La librería jdom no debería incluirse entera, tal cual se descomprime del sitio, ni necesitar más allá del jar llamado 'jdom.jar'. Opcionalmente, este fichero podría no ir dentro de una carpeta llamada 'lib'.
+   Tampoco es necesario la carpeta 'build', ni 'dist' ni 'test'.
+
+ - Guardar una lista de objetos en un ArrayList (o, en general, en un List) es correcto, pero si se van a hacer muchas búsquedas o comprobaciones de existencia, es más adecuado un Map. Por ejemplo, en vez de tener 'List<Cliente> clientes' y hacer 'clientes.get(c)' para ver si existe un cliente, sería mejor tener 'Map<String, Cliente> clientes' y hacer 'clientes.contains(c.getDni())'. De hecho, para que funcione el 'get' debéis reimplementar el 'equals' de Cliente, o usar el 'get' de List que recibe el índice.
+
+ - Hay varias maneras de guardar una lista de pares de cosas (como un artículo y su cantidad). Una es hacer una lista de un nuevo tipo de datos que contenga esa clase y un entero, otra opción es hacer una tabla hash con clave uno de los objetos (en nuestro caso, el artículo, ya que es el que va a ser único) y valor el otro objeto. Un inconveniente de esta solución es que la clase que actúa como clave debe implementar el método 'hashCode()'.
+
+ - Los números o cadenas "mágicas" es preferible declarlas como constantes, es decir: 'public final static'
+
+ - Se considera redundante el que la clase Articulo contenga un atributo "tipo", ya que, en tiempo de ejecución, es posible saber el tipo dinámico de un objeto usando el operador 'instanceof'
+
+ - Recordad que en esta práctica se debían implementar dos tipos de ordenaciones (como mínimo): por id y por descripción (o nombre/título)
+
+ - Tened en cuenta también que en el XML se debería guardar TODA la información de la tienda (historial de los clientes incluido)

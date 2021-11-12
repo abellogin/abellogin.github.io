@@ -1,0 +1,2 @@
+ErrorDocument	404	http://ir.ii.uam.es/~alejandro/error.html
+# redirectMatch	301	http://ir.ii.uam.es/~alejandro/error.html	http://ir.ii.uam.es/~alejandro/index.html
